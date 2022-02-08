@@ -1,0 +1,36 @@
+{
+	"name": "Generic I2C Functions",
+	"version": "1.0.0",
+	"keywords": "I2C, Sensor, Data, Communication",
+	"description": "Generic I2C data communication standard functions.",
+	"authors":
+	{
+		"name": "Mehmet Gunce Akkoyun",
+		"email": "akkoyun@me.com",
+		"url": "https://github.com/akkoyun"
+	},
+	"license": "MIT",
+	"frameworks": "arduino",
+	"headers": "I2C_Functions.h",
+	"platforms":
+	[
+		"atmelavr",
+		"atmelmegaavr"
+	],
+	"repository":
+	{
+		"type": "git",
+		"url": "https://github.com/akkoyun/I2C_Functions.git"
+	},
+	"examples": [
+		{
+			"name": "Function Test",
+			"base": "examples/test",
+			"files": [
+				"test.ino"
+			]
+		}
+	]
+}
+
+
