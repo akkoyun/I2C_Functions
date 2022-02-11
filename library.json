@@ -1,5 +1,5 @@
 {
-	"name": "Generic I2C Functions",
+	"name": "I2C_Functions",
 	"version": "1.0.0",
 	"keywords": "I2C, Sensor, Data, Communication",
 	"description": "Generic I2C data communication standard functions.",
