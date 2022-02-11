@@ -163,7 +163,7 @@ void _I2C_Functions::Set_Register_Bit(uint8_t _Address, uint8_t _Register, uint8
 	_Response = Read_Register(_Address, _Register);
 
 	// Set Bit
-	_Response |= (1 << _Bit_Number);
+	_Response = bitSet(_Response, _Bit_Number);
 
 	// Write Register
 	Write_Register(_Address, _Register, _Response, false);
@@ -178,7 +178,7 @@ void _I2C_Functions::Clear_Register_Bit(uint8_t _Address, uint8_t _Register, uin
 	_Response = Read_Register(_Address, _Register);
 
 	// Set Bit
-	_Response &= ~(1 << _Bit_Number);
+	_Response = bitClear(_Response, _Bit_Number);
 
 	// Write Register
 	Write_Register(_Address, _Register, _Response, false);
@@ -196,7 +196,7 @@ bool _I2C_Functions::Read_Register_Bit(uint8_t _Address, uint8_t _Register, uint
 	_Response = Read_Register(_Address, _Register);
 
 	// Read Bit
-	_Bit_Value &= (1 << _Bit_Number);
+	_Bit_Value = bitRead(_Response, _Bit_Number);
 
 	// End Function
 	return(_Bit_Value);
