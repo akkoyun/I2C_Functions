@@ -19,24 +19,10 @@
 #include <Wire.h>
 #endif
 
-// Define Multiplexer Variables
-#define		__OFF__				0
-#define		__CH1__				1
-#define		__CH2__				2
-#define		__CH3__				3
-#define		__CH4__				4
-#define		__CH5__				5
-#define		__CH6__				6
-#define		__CH7__				7
-#define		__CH8__				8
-
-// Define I2C Addresses
-#define		__ADDR_TCA9548__	0x70
-#define		__ADDR_RV3028C7__	0x52
-#define		__ADDR_DS28C__		0x50
-#define		__ADDR_HDC201__		0x40
-#define		__ADDR_MAX17055__	0x36
-#define		__ADDR_BQ24298__	0x6B
+// Define Sensor Libraries
+#ifndef __I2C_SENSOR_LIBRARY__
+#include <I2C_Sensor_Library.h>
+#endif
 
 class _I2C_Functions {
 

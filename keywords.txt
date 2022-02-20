@@ -6,11 +6,39 @@
 # Datatypes (KEYWORD1)
 #######################################
 
+I2C							KEYWORD1
+
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
+
+Control_Device				KEYWORD2
+Read_Register				KEYWORD2
+Read_Multiple_Register		KEYWORD2
+Write_Register				KEYWORD2
+Write_Multiple_Register		KEYWORD2
+Write_Command				KEYWORD2
+void Set_Register_Bit		KEYWORD2
+void Clear_Register_Bit		KEYWORD2
+Read_Register_Bit			KEYWORD2
+Set_Multiplexer				KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
 
+__OFF__						LITERAL1
+__CH1__						LITERAL1
+__CH2__						LITERAL1
+__CH3__						LITERAL1
+__CH4__						LITERAL1
+__CH5__						LITERAL1
+__CH6__						LITERAL1
+__CH7__						LITERAL1
+__CH8__						LITERAL1
+__ADDR_TCA9548__			LITERAL1
+__ADDR_RV3028C7__			LITERAL1
+__ADDR_DS28C__				LITERAL1
+__ADDR_HDC201__				LITERAL1
+__ADDR_MAX17055__			LITERAL1
+__ADDR_BQ24298__			LITERAL1
