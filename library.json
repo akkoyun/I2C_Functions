@@ -1,10 +1,9 @@
 {
 	"name": "I2C_Functions",
-	"version": "1.1.1",
-	"keywords": "I2C, Sensor, Data, Communication",
+	"version": "01.02.00",
+	"keywords": "I2C, Sensor, Data, Communication, Multiplexer, Detect, Register, Functions",
 	"description": "Generic I2C data communication standard functions.",
-	"authors":
-	{
+	"authors": {
 		"name": "Mehmet Gunce Akkoyun",
 		"email": "akkoyun@me.com",
 		"url": "https://github.com/akkoyun"
@@ -12,23 +11,19 @@
 	"license": "MIT",
 	"frameworks": "arduino",
 	"headers": "I2C_Functions.h",
-	"platforms":
-	[
+	"platforms": [
 		"atmelavr",
 		"atmelmegaavr"
 	],
-	"repository":
-	{
+	"repository": {
 		"type": "git",
 		"url": "https://github.com/akkoyun/I2C_Functions.git"
 	},
 	"examples": [
 		{
-			"name": "Function Test",
-			"base": "examples/test",
-			"files": [
-				"test.ino"
-			]
+			"name": "I2C Sensor Detect",
+			"base": "examples/Device_Control",
+			"files": ["Device_Control.ino"]
 		}
 	]
 }
