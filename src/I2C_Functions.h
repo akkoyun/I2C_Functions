@@ -42,10 +42,9 @@ class _I2C_Functions {
 
 		bool Set_Multiplexer(uint8_t _Address, uint8_t _Channel);
 
-	private:
-
 		uint8_t _Multiplexer_Current_Channel = 0;
 
+	private:
 
 };
 
