@@ -154,10 +154,13 @@ bool _I2C_Functions::Write_Multiple_Register(uint8_t _Address, uint8_t _Register
 
 }
 
-void _I2C_Functions::Set_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number) {
+bool _I2C_Functions::Set_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number, bool _Stop) {
 
 	// Declare Response Variable
 	uint8_t _Response = 0x00;
+
+	// Declare Variable
+	bool _Write_Response = false;
 
 	// Read Register
 	_Response = Read_Register(_Address, _Register);
@@ -166,13 +169,19 @@ void _I2C_Functions::Set_Register_Bit(uint8_t _Address, uint8_t _Register, uint8
 	_Response = bitSet(_Response, _Bit_Number);
 
 	// Write Register
-	Write_Register(_Address, _Register, _Response, false);
+	_Write_Response = Write_Register(_Address, _Register, _Response, _Stop);
+
+	// End Function
+	return(_Write_Response);
 
 }
-void _I2C_Functions::Clear_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number) {
+bool _I2C_Functions::Clear_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number, bool _Stop) {
 	
 	// Declare Response Variable
 	uint8_t _Response = 0x00;
+
+	// Declare Variable
+	bool _Write_Response = false;
 
 	// Read Register
 	_Response = Read_Register(_Address, _Register);
@@ -181,7 +190,10 @@ void _I2C_Functions::Clear_Register_Bit(uint8_t _Address, uint8_t _Register, uin
 	_Response = bitClear(_Response, _Bit_Number);
 
 	// Write Register
-	Write_Register(_Address, _Register, _Response, false);
+	_Write_Response = Write_Register(_Address, _Register, _Response, _Stop);
+
+	// End Function
+	return(_Write_Response);
 
 }
 bool _I2C_Functions::Read_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number) {

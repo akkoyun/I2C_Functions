@@ -36,8 +36,8 @@ class _I2C_Functions {
 		bool Write_Multiple_Register(uint8_t _Address, uint8_t _Register, uint8_t * _Data, uint8_t _Length);
 		bool Write_Command(uint8_t _Address, uint8_t _Command, bool _Stop);
 
-		void Set_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number);
-		void Clear_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number);
+		bool Set_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number, bool _Stop);
+		bool Clear_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number, bool _Stop);
 		bool Read_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number);
 
 		bool Set_Multiplexer(uint8_t _Address, uint8_t _Channel);
