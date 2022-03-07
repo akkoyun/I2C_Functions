@@ -1,6 +1,6 @@
 {
 	"name": "I2C_Functions",
-	"version": "1.4.1",
+	"version": "1.4.2",
 	"keywords": "I2C, Sensor, Data, Communication, Multiplexer, Detect, Register, Functions, Converter, bit Functions  ",
 	"description": "This is a helper library to abstract away I2C transactions and registers.",
 	"authors": {
