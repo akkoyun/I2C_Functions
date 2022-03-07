@@ -201,7 +201,7 @@ bool _I2C_Functions::Read_Register_Bit(uint8_t _Address, uint8_t _Register, uint
 }
 
 // Converter Functions
-uint8_t BCDtoDEC(uint8_t _Value) {
+uint8_t _I2C_Functions::BCDtoDEC(uint8_t _Value) {
 
 	// Define Variable
 	uint8_t _OutPut;
@@ -213,7 +213,7 @@ uint8_t BCDtoDEC(uint8_t _Value) {
 	return(_OutPut);
 
 }
-uint8_t DECtoBCD(byte _Value) {
+uint8_t _I2C_Functions::DECtoBCD(byte _Value) {
 
 	// Define Variable
 	uint8_t _OutPut;
