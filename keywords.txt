@@ -22,6 +22,8 @@ void Set_Register_Bit		KEYWORD2
 void Clear_Register_Bit		KEYWORD2
 Read_Register_Bit			KEYWORD2
 Set_Multiplexer				KEYWORD2
+BCDtoDEC                    KEYWORD2
+DECtoBCD                    KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
