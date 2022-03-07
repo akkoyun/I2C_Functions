@@ -3,7 +3,7 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/akkoyun/I2C_Functions) ![arduino-library-badge](https://www.ardu-badge.com/badge/I2C_Functions.svg?) ![Visits Badge](https://badges.pufler.dev/visits/akkoyun/I2C_Functions) ![GitHub stars](https://img.shields.io/github/stars/akkoyun/I2C_Functions?style=flat&logo=github) ![Updated Badge](https://badges.pufler.dev/updated/akkoyun/I2C_Functions) ![PlatformIO Registry](https://badges.registry.platformio.org/packages/akkoyun/library/I2C_Functions.svg) 
 [![Check Arduino](https://github.com/akkoyun/I2C_Functions/actions/workflows/check-arduino.yml/badge.svg)](https://github.com/akkoyun/I2C_Functions/actions/workflows/check-arduino.yml) [![Compile Examples](https://github.com/akkoyun/I2C_Functions/actions/workflows/compile-examples.yml/badge.svg)](https://github.com/akkoyun/I2C_Functions/actions/workflows/compile-examples.yml) [![Spell Check](https://github.com/akkoyun/I2C_Functions/actions/workflows/spell-check.yml/badge.svg)](https://github.com/akkoyun/I2C_Functions/actions/workflows/spell-check.yml)
 
-	Build - 01.04.00
+	Build - 01.04.01
 
 ---
 
@@ -36,7 +36,7 @@ bool Sensor_Connected = I2C.Control_Device(0x40);
 
 **I2C Read Single Register**
 
-Library can read a single register on I2C device and function returns readed register from device in ```uint8_t``` format
+Library can read a single register on I2C device and function returns readded register from device in ```uint8_t``` format
 
 ```C++
 uint8_t Register = I2C.Read_Register(0x40, 0x01);
@@ -67,7 +67,7 @@ bool Success = Write_Command(I2C_Address, Command, false);
 
 **I2C Read Multiple Register Command**
 
-Library can read multiple register from the selected I2C device. Readed data stores in the out function array. Function also allows the end connection parameter. Function returns success response if command is success.
+Library can read multiple register from the selected I2C device. Readded data stores in the out function array. Function also allows the end connection parameter. Function returns success response if command is success.
 
 ```C++
 uint8_t I2C_Address = 0x40;
@@ -129,7 +129,7 @@ bool Success = Read_Register_Bit(I2C_Address, Register, Bit_Number, false);
 
 **I2C Generic Multiplexer Command**
 
-If your I2C structure contains a I2C Multiplexer, you need to use a aditional library (or command set). In this library you can also use a generic multiplexer channel set command. Function returns success response if command is success.
+If your I2C structure contains a I2C Multiplexer, you need to use a additional library (or command set). In this library you can also use a generic multiplexer channel set command. Function returns success response if command is success.
 
 ```C++
 uint8_t I2C_Address = 0x40;
