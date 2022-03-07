@@ -8,23 +8,7 @@
 
 #include <I2C_Functions.h>
 
-// Global Functions
-bool _I2C_Functions::Control_Device(uint8_t _Address) {
-
-	// Connect to Device
-	Wire.beginTransmission(_Address);
-
-	// Close I2C Connection
-	uint8_t _Result = Wire.endTransmission();
-
-	// Control For Result
-	if (_Result != 0) return(false);
-
-	// End Function
-	return(true);
-
-}
-
+// Register Functions
 uint8_t _I2C_Functions::Read_Register(uint8_t _Address, uint8_t _Register) {
 
 	// Declare Response Variable
@@ -154,6 +138,7 @@ bool _I2C_Functions::Write_Multiple_Register(uint8_t _Address, uint8_t _Register
 
 }
 
+// Bit Functions
 bool _I2C_Functions::Set_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number, bool _Stop) {
 
 	// Declare Response Variable
@@ -215,6 +200,48 @@ bool _I2C_Functions::Read_Register_Bit(uint8_t _Address, uint8_t _Register, uint
 
 }
 
+// Converter Functions
+uint8_t BCDtoDEC(uint8_t _Value) {
+
+	// Define Variable
+	uint8_t _OutPut;
+
+	// Calculate Value
+	_OutPut = ((_Value / 16 * 10) + (_Value % 16));
+
+	// End Function
+	return(_OutPut);
+
+}
+uint8_t DECtoBCD(byte _Value) {
+
+	// Define Variable
+	uint8_t _OutPut;
+
+	// Calculate Value
+	_OutPut = ((_Value / 10 * 16) + (_Value % 10));
+
+	// End Function
+	return(_OutPut);
+
+}
+
+// Generic I2C Functions
+bool _I2C_Functions::Control_Device(uint8_t _Address) {
+
+	// Connect to Device
+	Wire.beginTransmission(_Address);
+
+	// Close I2C Connection
+	uint8_t _Result = Wire.endTransmission();
+
+	// Control For Result
+	if (_Result != 0) return(false);
+
+	// End Function
+	return(true);
+
+}
 bool _I2C_Functions::Set_Multiplexer(uint8_t _Address, uint8_t _Channel) {
 
 	// Control for Channel

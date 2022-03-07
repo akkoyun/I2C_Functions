@@ -28,23 +28,30 @@ class _I2C_Functions {
 
 	public:
 
-		bool Control_Device(uint8_t _Address);
-
+		// Register Functions
 		uint8_t Read_Register(uint8_t _Address, uint8_t _Register);
 		bool Read_Multiple_Register(uint8_t _Address, uint8_t _Register, uint8_t * _Data, uint8_t _Length, bool _Stop);
 		bool Write_Register(uint8_t _Address, uint8_t _Register, uint8_t _Data, bool _Stop);
 		bool Write_Multiple_Register(uint8_t _Address, uint8_t _Register, uint8_t * _Data, uint8_t _Length);
 		bool Write_Command(uint8_t _Address, uint8_t _Command, bool _Stop);
 
+		// Bit Functions
 		bool Set_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number, bool _Stop);
 		bool Clear_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number, bool _Stop);
 		bool Read_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number);
 
+		// Converter Functions
+		uint8_t BCDtoDEC(uint8_t _Value);
+		uint8_t DECtoBCD(byte _Value);
+
+		// Generic I2C Functions
+		bool Control_Device(uint8_t _Address);
 		bool Set_Multiplexer(uint8_t _Address, uint8_t _Channel);
 
-		uint8_t _Multiplexer_Current_Channel = 0;
-
 	private:
+
+		// Private Variables
+		uint8_t _Multiplexer_Current_Channel = 0;
 
 };
 
