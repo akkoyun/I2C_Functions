@@ -1,8 +1,8 @@
 {
 	"name": "I2C_Functions",
-	"version": "1.4.0",
-	"keywords": "I2C, Sensor, Data, Communication, Multiplexer, Detect, Register, Functions",
-	"description": "Generic I2C data communication standard functions.",
+	"version": "1.4.1",
+	"keywords": "I2C, Sensor, Data, Communication, Multiplexer, Detect, Register, Functions, Converter, bit Functions  ",
+	"description": "This is a helper library to abstract away I2C transactions and registers.",
 	"authors": {
 		"name": "Mehmet Gunce Akkoyun",
 		"email": "akkoyun@me.com",
