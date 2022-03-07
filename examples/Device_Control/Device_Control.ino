@@ -14,7 +14,7 @@ void setup() {
 void loop() {
 
 	// Sensor Detect
-	bool _Sensor_Control = I2C.Control_Device(__ADDR_HDC2010__);
+	bool _Sensor_Control = I2C.Control_Device(I2C.HDC2010.I2C_Address);
 
 	// Print Sensor Detect
 	Serial.print("Device Status : ");

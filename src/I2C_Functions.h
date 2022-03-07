@@ -28,6 +28,18 @@ class _I2C_Functions {
 
 	public:
 
+		// Sensor Definations
+		I2C_Sensor TCA9548 	{0x70, "TCA9548",		"Texas",		"I2C Multiplexer"};
+		I2C_Sensor RV3028C7	{0x52, "RV-3028-C7",	"Seiko",		"RTC"};
+		I2C_Sensor DS28C 	{0x50, "DS28C", 		"Maxim",		"Serial ID"};
+		I2C_Sensor HDC2010 	{0x40, "HDC2010",		"Texas",		"T/H Sensor"};
+		I2C_Sensor MAX17055	{0x36, "MAX17055",		"Maxim",		"Battery Gauge"};
+		I2C_Sensor BQ24298	{0x6B, "BQ24298",		"Texas",		"Charger IC"};
+		I2C_Sensor SHT21	{0x40, "SHT21",			"Sensirion",	"T/H Sensor"};
+
+		// Public Variables
+		uint8_t _Multiplexer_Current_Channel = 0;
+
 		// Register Functions
 		uint8_t Read_Register(uint8_t _Address, uint8_t _Register);
 		bool Read_Multiple_Register(uint8_t _Address, uint8_t _Register, uint8_t * _Data, uint8_t _Length, bool _Stop);
@@ -49,9 +61,6 @@ class _I2C_Functions {
 		bool Set_Multiplexer(uint8_t _Address, uint8_t _Channel);
 
 	private:
-
-		// Private Variables
-		uint8_t _Multiplexer_Current_Channel = 0;
 
 };
 
