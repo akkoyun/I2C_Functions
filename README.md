@@ -3,7 +3,7 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/akkoyun/I2C_Functions) ![arduino-library-badge](https://www.ardu-badge.com/badge/I2C_Functions.svg?) ![Visits Badge](https://badges.pufler.dev/visits/akkoyun/I2C_Functions) ![GitHub stars](https://img.shields.io/github/stars/akkoyun/I2C_Functions?style=flat&logo=github) ![Updated Badge](https://badges.pufler.dev/updated/akkoyun/I2C_Functions) ![PlatformIO Registry](https://badges.registry.platformio.org/packages/akkoyun/library/I2C_Functions.svg) 
 [![Check Arduino](https://github.com/akkoyun/I2C_Functions/actions/workflows/check-arduino.yml/badge.svg)](https://github.com/akkoyun/I2C_Functions/actions/workflows/check-arduino.yml) [![Compile Examples](https://github.com/akkoyun/I2C_Functions/actions/workflows/compile-examples.yml/badge.svg)](https://github.com/akkoyun/I2C_Functions/actions/workflows/compile-examples.yml) [![Spell Check](https://github.com/akkoyun/I2C_Functions/actions/workflows/spell-check.yml/badge.svg)](https://github.com/akkoyun/I2C_Functions/actions/workflows/spell-check.yml)
 
-	Build - 01.04.05
+	Build - 01.04.06
 
 ---
 
