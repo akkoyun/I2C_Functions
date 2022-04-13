@@ -27,6 +27,7 @@
 #define __I2C__MAX17055__Addr__ 	(uint8_t)0x36
 #define __I2C__BQ24298__Addr__ 		(uint8_t)0x6B
 #define __I2C__SHT21__Addr__ 		(uint8_t)0x40
+#define __I2C__SDP810__Addr__ 		(uint8_t)0x25
 
 class _I2C_Functions {
 
