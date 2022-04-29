@@ -54,14 +54,17 @@ bool _I2C_Functions::Write_Register(uint8_t _Address, uint8_t _Register, uint8_t
 	// Send Data
 	Wire.write(_Data);
 
+	// Declare Variable
+	uint8_t _Result;
+
 	// Close I2C Connection
-	uint8_t _Result = Wire.endTransmission(_Stop);
+	_Result = Wire.endTransmission(_Stop);
 
 	// Control For Result
 	//if (_Result != 0) return(false);
 
 	// End Function
-	return(true);
+	return(_Result);
 
 }
 bool _I2C_Functions::Write_Command(uint8_t _Address, uint8_t _Command, bool _Stop) {
