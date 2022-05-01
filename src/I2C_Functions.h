@@ -9,29 +9,32 @@
 #ifndef __I2C_Functions__
 #define __I2C_Functions__
 
-// Define Arduino Library
+// Include Arduino Library
 #ifndef __Arduino__
 #include <Arduino.h>
 #endif
 
-// Define Wire Library
+// Include Wire Library
 #ifndef __Wire__
 #include <Wire.h>
 #endif
 
-// Sensor Address Definations
-#define __I2C__TCA9548__Addr__ 		(uint8_t)0x70
-#define __I2C__RV3028C7__Addr__ 	(uint8_t)0x52
-#define __I2C__DS28C__Addr__ 		(uint8_t)0x50
-#define __I2C__HDC2010__Addr__ 		(uint8_t)0x40
-#define __I2C__MAX17055__Addr__ 	(uint8_t)0x36
-#define __I2C__BQ24298__Addr__ 		(uint8_t)0x6B
-#define __I2C__SHT21__Addr__ 		(uint8_t)0x40
-#define __I2C__SDP810__Addr__ 		(uint8_t)0x25
+// Include Sensor Database
+#ifndef __I2C_Address__
+#include "I2C_Definitions.h"
+#endif
 
-class _I2C_Functions {
+class I2C_Functions {
 
 	public:
+
+		// Class Constractor
+		I2C_Functions(uint8_t _Address, TwoWire *_TWI = &Wire);
+
+
+
+
+
 
 		// Public Variables
 		uint8_t _Multiplexer_Current_Channel = 0;
@@ -58,6 +61,11 @@ class _I2C_Functions {
 
 	private:
 
+		// TWI Definations
+		TwoWire *TWI;
+		uint8_t TWI_Address;
+		bool TWI_Begun;
+		
 };
 
 extern _I2C_Functions I2C;

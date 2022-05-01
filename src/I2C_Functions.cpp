@@ -9,7 +9,15 @@
 #include <I2C_Functions.h>
 
 // Register Functions
-uint8_t _I2C_Functions::Read_Register(uint8_t _Address, uint8_t _Register) {
+I2C_Functions(uint8_t _Address, TwoWire *_TWI = &Wire) {
+
+	// Set Definations
+	TWI = _TWI;
+	TWI_Address = _Address;
+	TWI_Begun = false;
+
+}
+uint8_t I2C_Functions::Read_Register(uint8_t _Address, uint8_t _Register) {
 
 	// Declare Response Variable
 	uint8_t _Response = 0x00;
@@ -43,6 +51,13 @@ uint8_t _I2C_Functions::Read_Register(uint8_t _Address, uint8_t _Register) {
 	return(_Response);
 
 }
+
+
+
+
+
+
+
 bool _I2C_Functions::Write_Register(uint8_t _Address, uint8_t _Register, uint8_t _Data, bool _Stop) {
 
 	// Connect to Device

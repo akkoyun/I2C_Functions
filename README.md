@@ -1,9 +1,9 @@
-# I2C Functions Library <sup>V1.4</sup>
+# I2C Functions Library <sup>V1.5</sup>
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/akkoyun/I2C_Functions) ![arduino-library-badge](https://www.ardu-badge.com/badge/I2C_Functions.svg?) ![Visits Badge](https://badges.pufler.dev/visits/akkoyun/I2C_Functions) ![GitHub stars](https://img.shields.io/github/stars/akkoyun/I2C_Functions?style=flat&logo=github) ![Updated Badge](https://badges.pufler.dev/updated/akkoyun/I2C_Functions) ![PlatformIO Registry](https://badges.registry.platformio.org/packages/akkoyun/library/I2C_Functions.svg) 
 [![Check Arduino](https://github.com/akkoyun/I2C_Functions/actions/workflows/check-arduino.yml/badge.svg)](https://github.com/akkoyun/I2C_Functions/actions/workflows/check-arduino.yml) [![Compile Examples](https://github.com/akkoyun/I2C_Functions/actions/workflows/compile-examples.yml/badge.svg)](https://github.com/akkoyun/I2C_Functions/actions/workflows/compile-examples.yml) [![Spell Check](https://github.com/akkoyun/I2C_Functions/actions/workflows/spell-check.yml/badge.svg)](https://github.com/akkoyun/I2C_Functions/actions/workflows/spell-check.yml)
 
-	Build - 01.04.08
+	Build - 01.05.00
 
 ---
 
@@ -36,7 +36,7 @@ bool Sensor_Connected = I2C.Control_Device(0x40);
 
 **I2C Read Single Register**
 
-Library can read a single register on I2C device and function returns readded register from device in ```uint8_t``` format
+Library can read a single register on I2C device and function returns register from device in ```uint8_t``` format
 
 ```C++
 uint8_t Register = I2C.Read_Register(0x40, 0x01);
@@ -67,7 +67,7 @@ bool Success = Write_Command(I2C_Address, Command, false);
 
 **I2C Read Multiple Register Command**
 
-Library can read multiple register from the selected I2C device. Readded data stores in the out function array. Function also allows the end connection parameter. Function returns success response if command is success.
+Library can read multiple register from the selected I2C device. Read data stores in the out function array. Function also allows the end connection parameter. Function returns success response if command is success.
 
 ```C++
 uint8_t I2C_Address = 0x40;

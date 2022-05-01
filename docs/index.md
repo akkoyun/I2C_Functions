@@ -36,7 +36,7 @@ bool Sensor_Connected = I2C.Control_Device(0x40);
 
 **I2C Read Single Register**
 
-Library can read a single register on I2C device and function returns readded register from device in ```uint8_t``` format
+Library can read a single register on I2C device and function returns register from device in ```uint8_t``` format
 
 ```C++
 uint8_t Register = I2C.Read_Register(0x40, 0x01);
@@ -67,7 +67,7 @@ bool Success = Write_Command(I2C_Address, Command, false);
 
 **I2C Read Multiple Register Command**
 
-Library can read multiple register from the selected I2C device. Readded data stores in the out function array. Function also allows the end connection parameter. Function returns success response if command is success.
+Library can read multiple register from the selected I2C device. Data stores in the out function array. Function also allows the end connection parameter. Function returns success response if command is success.
 
 ```C++
 uint8_t I2C_Address = 0x40;
