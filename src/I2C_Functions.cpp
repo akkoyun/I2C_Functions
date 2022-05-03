@@ -6,44 +6,92 @@
  *	Code Developer		: Mehmet Gunce Akkoyun (akkoyun@me.com)
  *********************************************************************************/
 
+// Include Header
 #include <I2C_Functions.h>
 
 // Register Functions
-I2C_Functions(uint8_t _Address, TwoWire *_TWI = &Wire) {
+I2C_Functions::I2C_Functions(uint8_t _Address, uint8_t _Mux_Channel) {
 
-	// Set Definations
-	TWI = _TWI;
-	TWI_Address = _Address;
-	TWI_Begun = false;
+	// Start TWI
+	Wire.begin();
+
+	// Set I2C Device Address
+	this->TWI_Address = _Address;
+
+	// Set I2C Device State
+	this->TWI_Device = false;
+
+	// Set Variable
+	this->TWI_Device_Mux_Channel = _Mux_Channel;
 
 }
-uint8_t I2C_Functions::Read_Register(uint8_t _Address, uint8_t _Register) {
+I2C_Functions::~I2C_Functions() {
+
+	// Set I2C Device Address
+	this->TWI_Address = 0;
+
+	// Set I2C Device State
+	this->TWI_Device = false;
+
+	// Set Mux
+	this->Set_Multiplexer(__Mux_Channel_Off__);
+
+	// Delay
+	delay(10);
+
+}
+bool I2C_Functions::Begin(void) {
+
+	// Set Multiplexer Channel
+	if (this->TWI_Device_Mux_Channel == 0) this->Set_Multiplexer(__Mux_Channel_Off__);
+
+	// Control for Device
+	this->Control_Device();
+
+	// End Function
+	return(this->TWI_Device);
+
+}
+uint8_t I2C_Functions::Read_Register(uint8_t _Register) {
 
 	// Declare Response Variable
 	uint8_t _Response = 0x00;
 
-	// Connect to Device
-	Wire.beginTransmission(_Address);
+	// Control for Multiplexer
+	if (this->TWI_Device_Mux_Channel != 0 and this->_Multiplexer_Current_Channel != this->TWI_Device_Mux_Channel) this->Set_Multiplexer(this->TWI_Device_Mux_Channel);
 
-	// Send Command
-	Wire.write(_Register);
+	// Control for Device
+	if (this->TWI_Device) {
 
-	// Close I2C Connection
-	Wire.endTransmission();
+		// Connect to Device
+		Wire.beginTransmission(this->TWI_Address);
 
-	// Read Register
-	Wire.requestFrom(_Address, (uint8_t)1);
+		// Send Command
+		Wire.write(_Register);
 
-	// Control for Response
-	if (Wire.available()) {
-		
-		// Read Response
-		_Response = Wire.read();
+		// Close I2C Connection
+		Wire.endTransmission();
+
+		// Read Register
+		Wire.requestFrom(this->TWI_Address, (uint8_t)1);
+
+		// Control for Response
+		if (Wire.available()) {
+			
+			// Read Response
+			_Response = Wire.read();
+
+		} else {
+
+			// Set Error Variable
+			_Response = NAN;
+
+		}
 
 	} else {
 
 		// Set Error Variable
-		_Response = 0xFF;
+		_Response = NAN;
 
 	}
 	
@@ -51,77 +99,36 @@ uint8_t I2C_Functions::Read_Register(uint8_t _Address, uint8_t _Register) {
 	return(_Response);
 
 }
+bool I2C_Functions::Write_Register(uint8_t _Register, uint8_t _Data, bool _Stop) {
 
+	// Control for Multiplexer
+	if (this->TWI_Device_Mux_Channel != 0 and this->_Multiplexer_Current_Channel != this->TWI_Device_Mux_Channel) this->Set_Multiplexer(this->TWI_Device_Mux_Channel);
 
+	// Control for Device
+	if (this->TWI_Device) {
 
+		// Declare Variable
+		uint8_t _Result;
 
+		// Connect to Device
+		Wire.beginTransmission(this->TWI_Address);
 
+		// Send Register Address
+		Wire.write(_Register);
 
+		// Send Data
+		Wire.write(_Data);
 
-bool _I2C_Functions::Write_Register(uint8_t _Address, uint8_t _Register, uint8_t _Data, bool _Stop) {
+		// Close I2C Connection
+		_Result = Wire.endTransmission(_Stop);
 
-	// Connect to Device
-	Wire.beginTransmission(_Address);
+		// Control For Result
+		if (_Result != 0) return(false);
 
-	// Send Register Address
-	Wire.write(_Register);
+	} else {
 
-	// Send Data
-	Wire.write(_Data);
-
-	// Declare Variable
-	uint8_t _Result;
-
-	// Close I2C Connection
-	_Result = Wire.endTransmission(_Stop);
-
-	// Control For Result
-	//if (_Result != 0) return(false);
-
-	// End Function
-	return(_Result);
-
-}
-bool _I2C_Functions::Write_Command(uint8_t _Address, uint8_t _Command, bool _Stop) {
-
-	// Connect to Device
-	Wire.beginTransmission(_Address);
-
-	// Send Register Address
-	Wire.write(_Command);
-
-	// Close I2C Connection
-	uint8_t _Result = Wire.endTransmission(_Stop);
-
-	// Control For Result
-	if (_Result != 0) return(false);
-
-	// End Function
-	return(true);
-
-}
-bool _I2C_Functions::Read_Multiple_Register(uint8_t _Address, uint8_t _Register, uint8_t * _Data, uint8_t _Length, bool _Stop) {
-
-	// Connect to Device
-	Wire.beginTransmission(_Address);
-
-	// Send Register Address
-	Wire.write(_Register);
-
-	// Close I2C Connection
-	uint8_t _Result = Wire.endTransmission(_Stop);
-
-	// Control For Result
-	if (_Result != 0) return(false);
-
-	// Send Read Request
-	Wire.requestFrom(_Address, _Length);
-
-	// Read Registers
-	for (size_t i = 0; i < _Length; i++) {
-
-		// Get Response
-		_Data[i] = Wire.read();
+		// End Function
+		return(false);
 
 	}
 
@@ -129,27 +136,115 @@ bool _I2C_Functions::Read_Multiple_Register(uint8_t _Address, uint8_t _Register,
 	return(true);
 
 }
-bool _I2C_Functions::Write_Multiple_Register(uint8_t _Address, uint8_t _Register, uint8_t * _Data, uint8_t _Length) {
+bool I2C_Functions::Read_Multiple_Register(uint8_t _Register, uint8_t * _Data, uint8_t _Length, bool _Stop) {
 
-	// Connect to Device
-	Wire.beginTransmission(_Address);
+	// Control for Multiplexer
+	if (this->TWI_Device_Mux_Channel != 0 and this->_Multiplexer_Current_Channel != this->TWI_Device_Mux_Channel) this->Set_Multiplexer(this->TWI_Device_Mux_Channel);
 
-	// Send Register Address
-	Wire.write(_Register);
+	// Control for Device
+	if (this->TWI_Device) {
 
-	// Write Registers Loop
-	for (size_t i = 0; i < _Length; i++) {
+		// Connect to Device
+		Wire.beginTransmission(this->TWI_Address);
 
-		// Write Register
-		Wire.write(_Data[i]);
+		// Send Register Address
+		Wire.write(_Register);
+
+		// Close I2C Connection
+		uint8_t _Result = Wire.endTransmission(_Stop);
+
+		// Control For Result
+		if (_Result != 0) return(false);
+
+		// Send Read Request
+		Wire.requestFrom(this->TWI_Address, _Length);
+
+		// Read Registers
+		for (size_t i = 0; i < _Length; i++) {
+
+			// Get Response
+			_Data[i] = Wire.read();
+
+		}
+
+	} else {
+
+		// End Function
+		return(false);
 
 	}
 
-	// Close I2C Connection
-	uint8_t _Result = Wire.endTransmission();
+	// End Function
+	return(true);
 
-	// Control For Result
-	if (_Result != 0) return(false);
+}
+bool I2C_Functions::Write_Multiple_Register(uint8_t _Register, uint8_t * _Data, uint8_t _Length) {
+
+	// Control for Multiplexer
+	if (this->TWI_Device_Mux_Channel != 0 and this->_Multiplexer_Current_Channel != this->TWI_Device_Mux_Channel) this->Set_Multiplexer(this->TWI_Device_Mux_Channel);
+
+	// Control for Device
+	if (this->TWI_Device) {
+
+		// Connect to Device
+		Wire.beginTransmission(this->TWI_Address);
+
+		// Send Register Address
+		Wire.write(_Register);
+
+		// Write Registers Loop
+		for (size_t i = 0; i < _Length; i++) {
+
+			// Write Register
+			Wire.write(_Data[i]);
+
+		}
+
+		// Close I2C Connection
+		uint8_t _Result = Wire.endTransmission();
+
+		// Control For Result
+		if (_Result != 0) return(false);
+
+	} else {
+
+		// End Function
+		return(false);
+
+	}
+
+	// End Function
+	return(true);
+
+}
+
+// Command Functions
+bool I2C_Functions::Write_Command(uint8_t _Command, bool _Stop) {
+
+	// Control for Multiplexer
+	if (this->TWI_Device_Mux_Channel != 0 and this->_Multiplexer_Current_Channel != this->TWI_Device_Mux_Channel) this->Set_Multiplexer(this->TWI_Device_Mux_Channel);
+
+	// Control for Device
+	if (this->TWI_Device) {
+
+		// Connect to Device
+		Wire.beginTransmission(this->TWI_Address);
+
+		// Send Register Address
+		Wire.write(_Command);
+
+		// Close I2C Connection
+		uint8_t _Result = Wire.endTransmission(_Stop);
+
+		// Control For Result
+		if (_Result != 0) return(false);
+
+	} else {
+
+		// End Function
+		return(false);
+
+	}
 
 	// End Function
 	return(true);
@@ -157,50 +252,95 @@ bool _I2C_Functions::Write_Multiple_Register(uint8_t _Address, uint8_t _Register
 }
 
 // Bit Functions
-bool _I2C_Functions::Set_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number, bool _Stop) {
+bool I2C_Functions::Set_Register_Bit(uint8_t _Register, uint8_t _Bit_Number, bool _Stop) {
 
-	// Declare Response Variable
-	uint8_t _Response = 0x00;
+	// Control for Multiplexer
+	if (this->TWI_Device_Mux_Channel != 0 and this->_Multiplexer_Current_Channel != this->TWI_Device_Mux_Channel) this->Set_Multiplexer(this->TWI_Device_Mux_Channel);
 
-	// Declare Variable
-	bool _Write_Response = false;
+	// Control for Device
+	if (this->TWI_Device) {
 
-	// Read Register
-	_Response = Read_Register(_Address, _Register);
+		// Declare Response Variable
+		uint8_t _Response = 0x00;
 
-	// Set Bit
-	_Response = bitSet(_Response, _Bit_Number);
+		// Declare Variable
+		bool _Write_Response = false;
 
-	// Write Register
-	_Write_Response = Write_Register(_Address, _Register, _Response, _Stop);
+		// Read Register
+		_Response = Read_Register(_Register);
+
+		// Control Bit value
+		if (bitRead(_Response, _Bit_Number) == false) {
+
+			// Set Bit
+			_Response = bitSet(_Response, _Bit_Number);
+
+			// Write Register
+			_Write_Response = Write_Register(_Register, _Response, _Stop);
+
+			// End Function
+			return(_Write_Response);
+
+		}
+
+	} else {
+
+		// End Function
+		return(false);
+
+	}
 
 	// End Function
-	return(_Write_Response);
+	return(true);
 
 }
-bool _I2C_Functions::Clear_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number, bool _Stop) {
-	
-	// Declare Response Variable
-	uint8_t _Response = 0x00;
+bool I2C_Functions::Clear_Register_Bit(uint8_t _Register, uint8_t _Bit_Number, bool _Stop) {
 
-	// Declare Variable
-	bool _Write_Response = false;
+	// Control for Multiplexer
+	if (this->TWI_Device_Mux_Channel != 0 and this->_Multiplexer_Current_Channel != this->TWI_Device_Mux_Channel) this->Set_Multiplexer(this->TWI_Device_Mux_Channel);
 
-	// Read Register
-	_Response = Read_Register(_Address, _Register);
+	// Control for Device
+	if (this->TWI_Device) {
 
-	// Set Bit
-	_Response = bitClear(_Response, _Bit_Number);
+		// Declare Response Variable
+		uint8_t _Response = 0x00;
 
-	// Write Register
-	_Write_Response = Write_Register(_Address, _Register, _Response, _Stop);
+		// Declare Variable
+		bool _Write_Response = false;
+
+		// Read Register
+		_Response = Read_Register(_Register);
+
+		// Control Bit value
+		if (bitRead(_Response, _Bit_Number) == true) {
+
+			// Set Bit
+			_Response = bitClear(_Response, _Bit_Number);
+
+			// Write Register
+			_Write_Response = Write_Register(_Register, _Response, _Stop);
+
+			// End Function
+			return(_Write_Response);
+
+		}
+
+	} else {
+
+		// End Function
+		return(false);
+
+	}
 
 	// End Function
-	return(_Write_Response);
+	return(true);
 
 }
-bool _I2C_Functions::Read_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number) {
-	
+bool I2C_Functions::Read_Register_Bit(uint8_t _Register, uint8_t _Bit_Number) {
+
+	// Control for Multiplexer
+	if (this->TWI_Device_Mux_Channel != 0 and this->_Multiplexer_Current_Channel != this->TWI_Device_Mux_Channel) this->Set_Multiplexer(this->TWI_Device_Mux_Channel);
+
 	// Declare Response Variable
 	uint8_t _Response = 0x00;
 
@@ -208,7 +348,7 @@ bool _I2C_Functions::Read_Register_Bit(uint8_t _Address, uint8_t _Register, uint
 	bool _Bit_Value = false;
 
 	// Read Register
-	_Response = Read_Register(_Address, _Register);
+	_Response = Read_Register(_Register);
 
 	// Read Bit
 	_Bit_Value = bitRead(_Response, _Bit_Number);
@@ -219,7 +359,7 @@ bool _I2C_Functions::Read_Register_Bit(uint8_t _Address, uint8_t _Register, uint
 }
 
 // Converter Functions
-uint8_t _I2C_Functions::BCDtoDEC(uint8_t _Value) {
+uint8_t I2C_Functions::BCDtoDEC(uint8_t _Value) {
 
 	// Define Variable
 	uint8_t _OutPut;
@@ -231,7 +371,7 @@ uint8_t _I2C_Functions::BCDtoDEC(uint8_t _Value) {
 	return(_OutPut);
 
 }
-uint8_t _I2C_Functions::DECtoBCD(byte _Value) {
+uint8_t I2C_Functions::DECtoBCD(byte _Value) {
 
 	// Define Variable
 	uint8_t _OutPut;
@@ -245,42 +385,52 @@ uint8_t _I2C_Functions::DECtoBCD(byte _Value) {
 }
 
 // Generic I2C Functions
-bool _I2C_Functions::Control_Device(uint8_t _Address) {
+bool I2C_Functions::Control_Device(void) {
+
+	// Control for Multiplexer
+	if (this->TWI_Device_Mux_Channel != 0 and this->_Multiplexer_Current_Channel != this->TWI_Device_Mux_Channel) this->Set_Multiplexer(this->TWI_Device_Mux_Channel);
 
 	// Connect to Device
-	Wire.beginTransmission(_Address);
+	Wire.beginTransmission(this->TWI_Address);
 
 	// Close I2C Connection
 	uint8_t _Result = Wire.endTransmission();
 
 	// Control For Result
-	if (_Result != 0) return(false);
+	if (_Result != 0) {
 
-	// End Function
-	return(true);
+		// Set Device
+		this->TWI_Device = false;
+
+		// End Function
+		return(false);
+
+	} else {
+
+		// Set Device
+		this->TWI_Device = true;
+
+		// End Function
+		return(true);
+
+	}
 
 }
-bool _I2C_Functions::Set_Multiplexer(uint8_t _Address, uint8_t _Channel) {
+
+// Multiplexer Functions
+bool I2C_Functions::Set_Multiplexer(uint8_t _Channel) {
 
 	// Control for Channel
-	if (_Channel > 8 or _Channel < 0) return(false);
+	if (_Channel > 8) return(false);
 
 	// Control for Current Channel
-	if (_Channel != _Multiplexer_Current_Channel) {
+	if (_Channel != this->_Multiplexer_Current_Channel) {
 		
 		// Connect I2C Multiplexer
-		Wire.beginTransmission(_Address);
+		Wire.beginTransmission(__Mux_Address__);
 
 		// Change Channel
-		if (_Channel == 0) 	Wire.write(0x00);	// Turn Multiplexer OFF
-		if (_Channel == 1) 	Wire.write(0x01);	// Turn Multiplexer to CH1
-		if (_Channel == 2) 	Wire.write(0x02);	// Turn Multiplexer to CH2
-		if (_Channel == 3) 	Wire.write(0x04);	// Turn Multiplexer to CH3
-		if (_Channel == 4) 	Wire.write(0x08);	// Turn Multiplexer to CH4
-		if (_Channel == 5) 	Wire.write(0x10);	// Turn Multiplexer to CH5
-		if (_Channel == 6) 	Wire.write(0x20);	// Turn Multiplexer to CH6
-		if (_Channel == 7) 	Wire.write(0x40);	// Turn Multiplexer to CH7
-		if (_Channel == 8) 	Wire.write(0x80);	// Turn Multiplexer to CH8
+		Wire.write((uint8_t)_Channel);
 
 		// Close I2C Connection
 		uint8_t _Result = Wire.endTransmission();
@@ -289,19 +439,27 @@ bool _I2C_Functions::Set_Multiplexer(uint8_t _Address, uint8_t _Channel) {
 		if (_Result != 0) return(false);
 
 		// Set Variable
-		_Multiplexer_Current_Channel = _Channel;
+		this->_Multiplexer_Current_Channel = _Channel;
 
-		// Delay
-		delay(20);
+	}
 
-		// End Function
-		return(true);
-
-	} 
+	// End Function
+	return(true);
 
 }
 
-// Define Library Class
-_I2C_Functions I2C;
+// Control Functions
+bool I2C_Functions::Detect(void) {
+
+	// End Functions
+	return(this->TWI_Device);
+
+}
+uint8_t I2C_Functions::Address(void) {
+
+	// End Functions
+	return(this->TWI_Address);
+
+}
 
 // 1903

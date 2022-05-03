@@ -24,50 +24,54 @@
 #include "I2C_Definitions.h"
 #endif
 
+// I2C Control Functions
 class I2C_Functions {
 
 	public:
 
 		// Class Constractor
-		I2C_Functions(uint8_t _Address, TwoWire *_TWI = &Wire);
-
-
-
-
-
-
-		// Public Variables
-		uint8_t _Multiplexer_Current_Channel = 0;
+		I2C_Functions(uint8_t _Address, uint8_t _Mux_Channel = 0x00);
+		~I2C_Functions();
+		bool Begin(void);
 
 		// Register Functions
-		uint8_t Read_Register(uint8_t _Address, uint8_t _Register);
-		bool Read_Multiple_Register(uint8_t _Address, uint8_t _Register, uint8_t * _Data, uint8_t _Length, bool _Stop);
-		bool Write_Register(uint8_t _Address, uint8_t _Register, uint8_t _Data, bool _Stop);
-		bool Write_Multiple_Register(uint8_t _Address, uint8_t _Register, uint8_t * _Data, uint8_t _Length);
-		bool Write_Command(uint8_t _Address, uint8_t _Command, bool _Stop);
+		uint8_t Read_Register(uint8_t _Register);
+		bool Write_Register(uint8_t _Register, uint8_t _Data, bool _Stop);
+		bool Read_Multiple_Register(uint8_t _Register, uint8_t * _Data, uint8_t _Length, bool _Stop);
+		bool Write_Multiple_Register(uint8_t _Register, uint8_t * _Data, uint8_t _Length);
+
+		// Command Functions
+		bool Write_Command(uint8_t _Command, bool _Stop);
 
 		// Bit Functions
-		bool Set_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number, bool _Stop);
-		bool Clear_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number, bool _Stop);
-		bool Read_Register_Bit(uint8_t _Address, uint8_t _Register, uint8_t _Bit_Number);
+		bool Set_Register_Bit(uint8_t _Register, uint8_t _Bit_Number, bool _Stop);
+		bool Clear_Register_Bit(uint8_t _Register, uint8_t _Bit_Number, bool _Stop);
+		bool Read_Register_Bit(uint8_t _Register, uint8_t _Bit_Number);
 
 		// Converter Functions
 		uint8_t BCDtoDEC(uint8_t _Value);
 		uint8_t DECtoBCD(byte _Value);
 
-		// Generic I2C Functions
-		bool Control_Device(uint8_t _Address);
-		bool Set_Multiplexer(uint8_t _Address, uint8_t _Channel);
+		// Detect Functions
+		bool Control_Device(void);
+
+		// Multiplexer Functions
+		bool Set_Multiplexer(uint8_t _Channel);
+
+		// Control Functions
+		bool Detect(void);
+		uint8_t Address(void);
 
 	private:
 
-		// TWI Definations
-		TwoWire *TWI;
+		// Device Definations
 		uint8_t TWI_Address;
-		bool TWI_Begun;
-		
-};
+		bool TWI_Device;
+		uint8_t TWI_Device_Mux_Channel;
 
-extern _I2C_Functions I2C;
+		// Multiplexer Variables
+		uint8_t _Multiplexer_Current_Channel = 9;
+
+};
 
 #endif /* defined(__I2C_Functions__) */
