@@ -10,7 +10,7 @@
 #define __I2C_Address__
 
 // I2C Library Definitions
-#define __I2C_Functions_Version__	"01.05.02"
+#define __I2C_Functions_Version__	"01.05.03"
 
 // Sensor Address Definitions
 #define __I2C_Addr_TCA9548__		(uint8_t)0x70

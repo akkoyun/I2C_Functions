@@ -57,7 +57,7 @@ class I2C_Functions {
 	public:
 
 		/**
-		 * @brief Object constractor of I2C library.
+		 * @brief Object constructor of I2C library.
 		 * @param _Address I2C address of device.
 		 * @param _Mux_Enable I2C multiplexer enable.
 		 * @param _Mux_Channel I2C multiplexer channel.
@@ -87,7 +87,7 @@ class I2C_Functions {
 		 * @param _Data Read data array.
 		 * @param _Length Length size of read data.
 		 * @param _Stop Stop I2C connection.
-		 * @return true Functon success.
+		 * @return true Function success.
 		 * @return false Function fails.
 		 */
 		bool Read_Multiple_Register(uint8_t _Register, uint8_t * _Data, uint8_t _Length, bool _Stop);
@@ -163,14 +163,14 @@ class I2C_Functions {
 		bool Control_Device(void);
 
 		/**
-		 * @brief I2C device controll variable.
+		 * @brief I2C device control variable.
 		 * @return true I2C device is OK.
 		 * @return false I2C device is fail.
 		 */
 		bool Detect(void);
 
 		/**
-		 * @brief Get object I2C adress.
+		 * @brief Get object I2C address.
 		 * @return uint8_t I2C address of devie.
 		 */
 		uint8_t Address(void);
