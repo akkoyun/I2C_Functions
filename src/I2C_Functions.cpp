@@ -10,46 +10,38 @@
 #include <I2C_Functions.h>
 
 // Register Functions
-I2C_Functions::I2C_Functions(uint8_t _Address, uint8_t _Mux_Channel) {
+I2C_Functions::I2C_Functions(uint8_t _Address, bool _Mux_Enable, uint8_t _Mux_Channel) : TWI_Address(_Address), TWI_Device(false), Multiplexer_Enable(_Mux_Enable), TWI_Device_Mux_Channel(_Mux_Channel) {
 
 	// Start TWI
 	Wire.begin();
 
-	// Set I2C Device Address
-	this->TWI_Address = _Address;
+	// Set Mux Off
+	if (this->Multiplexer_Enable) {
 
-	// Set I2C Device State
-	this->TWI_Device = false;
+		// Set Mux Channel
+		if (_Mux_Channel == 0) this->TWI_Device_Mux_Channel = __Mux_Channel_Off__;
+		if (_Mux_Channel == 1) this->TWI_Device_Mux_Channel = __Mux_Channel_1__;
+		if (_Mux_Channel == 2) this->TWI_Device_Mux_Channel = __Mux_Channel_2__;
+		if (_Mux_Channel == 3) this->TWI_Device_Mux_Channel = __Mux_Channel_3__;
+		if (_Mux_Channel == 4) this->TWI_Device_Mux_Channel = __Mux_Channel_4__;
+		if (_Mux_Channel == 5) this->TWI_Device_Mux_Channel = __Mux_Channel_5__;
+		if (_Mux_Channel == 6) this->TWI_Device_Mux_Channel = __Mux_Channel_6__;
+		if (_Mux_Channel == 7) this->TWI_Device_Mux_Channel = __Mux_Channel_7__;
+		if (_Mux_Channel == 8) this->TWI_Device_Mux_Channel = __Mux_Channel_8__;
 
-	// Set Variable
-	this->TWI_Device_Mux_Channel = _Mux_Channel;
+		// Connect I2C Multiplexer
+		Wire.beginTransmission(__Mux_Address__);
 
-}
-I2C_Functions::~I2C_Functions() {
+		// Change Channel
+		Wire.write((uint8_t)0x00);
 
-	// Set I2C Device Address
-	this->TWI_Address = 0;
+		// Control For Result
+		Wire.endTransmission();
 
-	// Set I2C Device State
-	this->TWI_Device = false;
-
-	// Set Mux
-	this->Set_Multiplexer(__Mux_Channel_Off__);
-
-	// Delay
-	delay(10);
-
-}
-bool I2C_Functions::Begin(void) {
-
-	// Set Multiplexer Channel
-	if (this->TWI_Device_Mux_Channel == 0) this->Set_Multiplexer(__Mux_Channel_Off__);
+	}
 
 	// Control for Device
 	this->Control_Device();
-
-	// End Function
-	return(this->TWI_Device);
 
 }
 uint8_t I2C_Functions::Read_Register(uint8_t _Register) {
@@ -58,7 +50,7 @@ uint8_t I2C_Functions::Read_Register(uint8_t _Register) {
 	uint8_t _Response = 0x00;
 
 	// Control for Multiplexer
-	if (this->TWI_Device_Mux_Channel != 0 and this->_Multiplexer_Current_Channel != this->TWI_Device_Mux_Channel) this->Set_Multiplexer(this->TWI_Device_Mux_Channel);
+	this->Set_Multiplexer();
 
 	// Control for Device
 	if (this->TWI_Device) {
@@ -102,7 +94,7 @@ uint8_t I2C_Functions::Read_Register(uint8_t _Register) {
 bool I2C_Functions::Write_Register(uint8_t _Register, uint8_t _Data, bool _Stop) {
 
 	// Control for Multiplexer
-	if (this->TWI_Device_Mux_Channel != 0 and this->_Multiplexer_Current_Channel != this->TWI_Device_Mux_Channel) this->Set_Multiplexer(this->TWI_Device_Mux_Channel);
+	this->Set_Multiplexer();
 
 	// Control for Device
 	if (this->TWI_Device) {
@@ -139,7 +131,7 @@ bool I2C_Functions::Write_Register(uint8_t _Register, uint8_t _Data, bool _Stop)
 bool I2C_Functions::Read_Multiple_Register(uint8_t _Register, uint8_t * _Data, uint8_t _Length, bool _Stop) {
 
 	// Control for Multiplexer
-	if (this->TWI_Device_Mux_Channel != 0 and this->_Multiplexer_Current_Channel != this->TWI_Device_Mux_Channel) this->Set_Multiplexer(this->TWI_Device_Mux_Channel);
+	this->Set_Multiplexer();
 
 	// Control for Device
 	if (this->TWI_Device) {
@@ -181,7 +173,7 @@ bool I2C_Functions::Read_Multiple_Register(uint8_t _Register, uint8_t * _Data, u
 bool I2C_Functions::Write_Multiple_Register(uint8_t _Register, uint8_t * _Data, uint8_t _Length) {
 
 	// Control for Multiplexer
-	if (this->TWI_Device_Mux_Channel != 0 and this->_Multiplexer_Current_Channel != this->TWI_Device_Mux_Channel) this->Set_Multiplexer(this->TWI_Device_Mux_Channel);
+	this->Set_Multiplexer();
 
 	// Control for Device
 	if (this->TWI_Device) {
@@ -222,7 +214,7 @@ bool I2C_Functions::Write_Multiple_Register(uint8_t _Register, uint8_t * _Data, 
 bool I2C_Functions::Write_Command(uint8_t _Command, bool _Stop) {
 
 	// Control for Multiplexer
-	if (this->TWI_Device_Mux_Channel != 0 and this->_Multiplexer_Current_Channel != this->TWI_Device_Mux_Channel) this->Set_Multiplexer(this->TWI_Device_Mux_Channel);
+	this->Set_Multiplexer();
 
 	// Control for Device
 	if (this->TWI_Device) {
@@ -255,7 +247,7 @@ bool I2C_Functions::Write_Command(uint8_t _Command, bool _Stop) {
 bool I2C_Functions::Set_Register_Bit(uint8_t _Register, uint8_t _Bit_Number, bool _Stop) {
 
 	// Control for Multiplexer
-	if (this->TWI_Device_Mux_Channel != 0 and this->_Multiplexer_Current_Channel != this->TWI_Device_Mux_Channel) this->Set_Multiplexer(this->TWI_Device_Mux_Channel);
+	this->Set_Multiplexer();
 
 	// Control for Device
 	if (this->TWI_Device) {
@@ -297,7 +289,7 @@ bool I2C_Functions::Set_Register_Bit(uint8_t _Register, uint8_t _Bit_Number, boo
 bool I2C_Functions::Clear_Register_Bit(uint8_t _Register, uint8_t _Bit_Number, bool _Stop) {
 
 	// Control for Multiplexer
-	if (this->TWI_Device_Mux_Channel != 0 and this->_Multiplexer_Current_Channel != this->TWI_Device_Mux_Channel) this->Set_Multiplexer(this->TWI_Device_Mux_Channel);
+	this->Set_Multiplexer();
 
 	// Control for Device
 	if (this->TWI_Device) {
@@ -339,7 +331,7 @@ bool I2C_Functions::Clear_Register_Bit(uint8_t _Register, uint8_t _Bit_Number, b
 bool I2C_Functions::Read_Register_Bit(uint8_t _Register, uint8_t _Bit_Number) {
 
 	// Control for Multiplexer
-	if (this->TWI_Device_Mux_Channel != 0 and this->_Multiplexer_Current_Channel != this->TWI_Device_Mux_Channel) this->Set_Multiplexer(this->TWI_Device_Mux_Channel);
+	this->Set_Multiplexer();
 
 	// Declare Response Variable
 	uint8_t _Response = 0x00;
@@ -387,64 +379,27 @@ uint8_t I2C_Functions::DECtoBCD(byte _Value) {
 // Generic I2C Functions
 bool I2C_Functions::Control_Device(void) {
 
-	// Control for Multiplexer
-	if (this->TWI_Device_Mux_Channel != 0 and this->_Multiplexer_Current_Channel != this->TWI_Device_Mux_Channel) this->Set_Multiplexer(this->TWI_Device_Mux_Channel);
+	// Set Mux Channel
+	this->Set_Multiplexer();
 
 	// Connect to Device
 	Wire.beginTransmission(this->TWI_Address);
 
 	// Close I2C Connection
-	uint8_t _Result = Wire.endTransmission();
-
-	// Control For Result
-	if (_Result != 0) {
+	if (Wire.endTransmission() != 0) {
 
 		// Set Device
 		this->TWI_Device = false;
-
-		// End Function
-		return(false);
 
 	} else {
 
 		// Set Device
 		this->TWI_Device = true;
 
-		// End Function
-		return(true);
-
-	}
-
-}
-
-// Multiplexer Functions
-bool I2C_Functions::Set_Multiplexer(uint8_t _Channel) {
-
-	// Control for Channel
-	if (_Channel > 8) return(false);
-
-	// Control for Current Channel
-	if (_Channel != this->_Multiplexer_Current_Channel) {
-		
-		// Connect I2C Multiplexer
-		Wire.beginTransmission(__Mux_Address__);
-
-		// Change Channel
-		Wire.write((uint8_t)_Channel);
-
-		// Close I2C Connection
-		uint8_t _Result = Wire.endTransmission();
-
-		// Control For Result
-		if (_Result != 0) return(false);
-
-		// Set Variable
-		this->_Multiplexer_Current_Channel = _Channel;
-
 	}
 
 	// End Function
-	return(true);
+	return(this->TWI_Device);
 
 }
 
@@ -459,6 +414,45 @@ uint8_t I2C_Functions::Address(void) {
 
 	// End Functions
 	return(this->TWI_Address);
+
+}
+uint8_t I2C_Functions::Mux(void) {
+
+	// End Functions
+	return(this->TWI_Device_Mux_Channel);
+
+}
+
+// Multiplexer Functions
+bool I2C_Functions::Set_Multiplexer(void) {
+
+	// Declare Result Variable
+	bool Result = true;
+
+	// Control for Multiplexer
+	if (this->Multiplexer_Enable) {
+
+		// Coltrol for Current Mux Channel
+		if (this->_Multiplexer_Current_Channel != this->TWI_Device_Mux_Channel) {
+
+			// Connect I2C Multiplexer
+			Wire.beginTransmission(__Mux_Address__);
+
+			// Change Channel
+			Wire.write((uint8_t)this->TWI_Device_Mux_Channel);
+
+			// Control For Result
+			if (Wire.endTransmission() != 0) Result = false;
+
+			// Set Variable
+			this->_Multiplexer_Current_Channel = this->TWI_Device_Mux_Channel;
+
+		} 
+
+	}
+
+	// End Function
+	return(Result);
 
 }
 
