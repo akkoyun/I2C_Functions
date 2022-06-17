@@ -1,16 +1,5 @@
-/* *******************************************************************************
- * 	Copyright (C) 2014-2022 Mehmet Gunce Akkoyun Can not be copied and/or
- *	distributed without the express permission of Mehmet Gunce Akkoyun.
- *
- *	Library				: I2C Address DataBase
- *	Code Developer		: Mehmet Gunce Akkoyun (akkoyun@me.com)
- *********************************************************************************/
-
-#ifndef __I2C_Address__
-#define __I2C_Address__
-
 // I2C Library Definitions
-#define __I2C_Functions_Version__	"01.05.04"
+#define __I2C_Functions_Version__	"01.06.00"
 
 // Sensor Address Definitions
 #define __I2C_Addr_TCA9548__		(uint8_t)0x70
@@ -21,6 +10,11 @@
 #define __I2C_Addr_BQ24298__		(uint8_t)0x6B
 #define __I2C_Addr_SHT21__			(uint8_t)0x40
 #define __I2C_Addr_SDP810__			(uint8_t)0x25
+
+#define __I2C_Addr_PCF8574_A__		(uint8_t)0x3F
+#define __I2C_Addr_PCF8574_B__		(uint8_t)0x3B
+#define __I2C_Addr_PCF8574_C__		(uint8_t)0x39
+#define __I2C_Addr_PCF8574_D__		(uint8_t)0x3E
 
 // Set Default Address
 #define __Mux_Address__             (uint8_t)0x70
@@ -35,5 +29,3 @@
 #define __Mux_Channel_6__			(uint8_t)0x20
 #define __Mux_Channel_7__			(uint8_t)0x40
 #define __Mux_Channel_8__			(uint8_t)0x80
-
-#endif
