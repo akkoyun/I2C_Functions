@@ -21,8 +21,6 @@ Write_Command               KEYWORD2
 Set_Register_Bit            KEYWORD2
 Clear_Register_Bit          KEYWORD2
 Read_Register_Bit           KEYWORD2
-BCDtoDEC                    KEYWORD2
-DECtoBCD                    KEYWORD2
 Control_Device              KEYWORD2
 Detect                      KEYWORD2
 Address                     KEYWORD2
