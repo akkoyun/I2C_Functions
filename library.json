@@ -1,8 +1,12 @@
 {
 	"name": "I2C_Functions",
-	"version": "1.4.8",
-	"keywords": "I2C, Sensor, Data, Communication, Multiplexer, Detect, Register, Functions, Converter, bit Functions  ",
-	"description": "This is a helper library to abstract away I2C transactions and registers.",
+	"version": "1.6.3",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/akkoyun/I2C_Functions.git"
+	},
+	"keywords": "I2C, Sensor, Data, Communication, Multiplexer, Detect, Register, Functions, Converter, bit Functions, Scanner, Console, VT100, Multiplexer, Sensor",
+	"description": "The Two-Wire interface is extremely useful for connecting multiple devices, as they can all share the same two pins (plus a ground return). This is because the devices are \"addressable\". Each device needs to have a unique address in the range 0x03 to 0x77. This is a helper library to abstract away I2C transactions and registers also this tool scans the master I2C bus and reports connected devices. ",
 	"authors": {
 		"name": "Mehmet Gunce Akkoyun",
 		"email": "akkoyun@me.com",
@@ -15,15 +19,23 @@
 		"atmelavr",
 		"atmelmegaavr"
 	],
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/akkoyun/I2C_Functions.git"
-	},
+	"dependencies":
+	[
+		{
+			"owner": "akkoyun",
+			"name": "Console"
+		}
+	],
 	"examples": [
 		{
 			"name": "I2C Sensor Detect",
 			"base": "examples/Device_Control",
 			"files": ["Device_Control.ino"]
+		},
+		{
+			"name": "I2C Device Scanner With Multiplexer",
+			"base": "examples/Device_Scanner",
+			"files": ["Device_Scanner.ino"]
 		}
 	]
 }
