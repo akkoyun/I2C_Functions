@@ -246,7 +246,7 @@ class I2C_Functions {
 		 * @return true Function success.
 		 * @return false Function fails.
 		 */
-		bool Read_Multiple_Register(uint16_t _Register, uint8_t * _Data, uint8_t _Length, bool _Stop) {
+		bool Read_Multiple_Register_u16(uint16_t _Register, uint8_t * _Data, uint8_t _Length, bool _Stop) {
 
 			// Control for Device
 			if (this->TWI_Device) {
