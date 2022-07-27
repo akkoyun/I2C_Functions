@@ -238,6 +238,63 @@ class I2C_Functions {
 		}
 
 		/**
+		 * @brief Read multiple data on specified register.
+		 * @param _Register Register address.
+		 * @param _Data Read data array.
+		 * @param _Length Length size of read data.
+		 * @param _Stop Stop I2C connection.
+		 * @return true Function success.
+		 * @return false Function fails.
+		 */
+		bool Read_Multiple_Register(uint16_t _Register, uint8_t * _Data, uint8_t _Length, bool _Stop) {
+
+			// Control for Device
+			if (this->TWI_Device) {
+
+				// Control for Multiplexer
+				this->Set_Multiplexer();
+
+				// Connect to Device
+				Wire.beginTransmission(this->TWI_Address);
+
+				// Declare Register Low and High address
+				uint8_t _Register_Low = (uint8_t)(0x00FF & (uint16_t)_Register);
+				uint8_t _Register_High = (uint8_t)((0xFF00 & (uint16_t)_Register) >> 8);
+
+				// Send Register Address
+				Wire.write(_Register_High);
+				Wire.write(_Register_Low);
+
+				// Close I2C Connection
+				uint8_t _Result = Wire.endTransmission(_Stop);
+
+				// Control For Result
+				if (_Result != 0) return(false);
+
+				// Send Read Request
+				Wire.requestFrom(this->TWI_Address, _Length);
+
+				// Read Registers
+				for (size_t i = 0; i < _Length; i++) {
+
+					// Get Response
+					_Data[i] = Wire.read();
+
+				}
+
+			} else {
+
+				// End Function
+				return(false);
+
+			}
+
+			// End Function
+			return(true);
+
+		}
+
+		/**
 		 * @brief Write multiple data to specified register.
 		 * @param _Register Register address.
 		 * @param _Data Write data array.
