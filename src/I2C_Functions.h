@@ -325,6 +325,45 @@ class I2C_Functions {
 		}
 
 		/**
+		 * @brief Write multiple command to I2C device.
+		 * @param _Command Command data.
+		 * @param _Length Command length.
+		 * @return true Function success.
+		 * @return false Function fails.
+		 */
+		bool Write_Multiple_Command(uint8_t * _Command, uint8_t _Length) {
+
+			// Control for Device
+			if (this->TWI_Device) {
+
+				// Control for Multiplexer
+				this->Set_Multiplexer();
+
+				// Connect to Device
+				Wire.beginTransmission(this->TWI_Address);
+
+				// Write Registers Loop
+				for (size_t i = 0; i < _Length; i++) Wire.write(_Command[i]);
+
+				// Close I2C Connection
+				uint8_t _Result = Wire.endTransmission();
+
+				// Control For Result
+				if (_Result != 0) return(false);
+
+			} else {
+
+				// End Function
+				return(false);
+
+			}
+
+			// End Function
+			return(true);
+
+		}
+
+		/**
 		 * @brief Set specified register bit on I2C device.
 		 * @param _Register Register address.
 		 * @param _Bit_Number Bit number of specified register data.
