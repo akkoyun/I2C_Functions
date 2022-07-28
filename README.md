@@ -1,8 +1,6 @@
-# I2C Functions Library <sup>V1.6</sup>
+# I2C Functions Library <sup>V1.8</sup>
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/akkoyun/I2C_Functions) ![arduino-library-badge](https://www.ardu-badge.com/badge/I2C_Functions.svg?) ![GitHub stars](https://img.shields.io/github/stars/akkoyun/I2C_Functions?style=flat&logo=github) ![PlatformIO Registry](https://badges.registry.platformio.org/packages/akkoyun/library/I2C_Functions.svg)
-
-	Build - 01.08.02
 
 ---
 
