@@ -2,8 +2,11 @@
 
 // Define Console Library
 #ifndef __Console__
-#include <Console.h>
+	#include <Console.h>
 #endif
+
+// Define Serial Console
+Console Terminal(Serial);
 
 // Declare Global Variable
 uint8_t Mux_Address = 0x00;
@@ -14,7 +17,7 @@ void setup() {
 	Serial.begin(115200);
 
 	// Start Console
-	Terminal.Begin(Serial);
+	Terminal.Begin();
 
 	// Draw Table
 	Terminal.I2C_Scanner_Table();
