@@ -3,17 +3,17 @@
 
 // Include Arduino Library
 #ifndef __Arduino__
-#include <Arduino.h>
+	#include <Arduino.h>
 #endif
 
 // Include Wire Library
 #ifndef __Wire__
-#include <Wire.h>
+	#include <Wire.h>
 #endif
 
 // Include Definitions
 #ifndef __I2C_Functions_Definitions__
-#include "Definition.h"
+	#include "Definition.h"
 #endif
 
 // I2C Control Functions

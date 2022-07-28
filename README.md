@@ -10,7 +10,13 @@ This is a helper library to abstract away I2C transactions and registers.
 
 ```C++
 // Declare Object
-I2C_Functions HDC2010(0x40, true, 3);
+I2C_Functions HDC2010(0x40, true, 3); // Connect 0x40 adres with I2C mux channel 3
+
+// Write Register
+HDC2010.Write_Register(0x10, 0x22, true); // Write 0x22 data to 0x10 register
+
+// Read Register
+uint8_t Result = HDC2010.Read_Register(0x01); // Read register 0x01
 ```
 
 Library includes some helper I2C functions and a generic I2C multiplexer function.
@@ -18,13 +24,13 @@ Library includes some helper I2C functions and a generic I2C multiplexer functio
     * Read_Register
     * Write_Register
     * Read_Multiple_Register
+    * Read_Multiple_Register_u16
     * Write_Multiple_Register
     * Write_Command
+    * Write_Multiple_Command
     * Set_Register_Bit
     * Clear_Register_Bit
     * Read_Register_Bit
-    * BCDtoDEC
-    * DECtoBCD
     * Control_Device
     * Detect
     * Address

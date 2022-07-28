@@ -1,5 +1,5 @@
 // I2C Library Definitions
-#define __I2C_Functions_Version__	"01.06.03"
+#define __I2C_Functions_Version__	"01.08.03"
 
 // Sensor Address Definitions
 #define __I2C_Addr_TCA9548__		(uint8_t)0x70
@@ -10,7 +10,6 @@
 #define __I2C_Addr_BQ24298__		(uint8_t)0x6B
 #define __I2C_Addr_SHT21__			(uint8_t)0x40
 #define __I2C_Addr_SDP810__			(uint8_t)0x25
-
 #define __I2C_Addr_PCF8574_A__		(uint8_t)0x3F
 #define __I2C_Addr_PCF8574_B__		(uint8_t)0x3B
 #define __I2C_Addr_PCF8574_C__		(uint8_t)0x39
