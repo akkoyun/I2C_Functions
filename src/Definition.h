@@ -8,6 +8,7 @@
 #define __I2C_Addr_HDC2010__		(uint8_t)0x40
 #define __I2C_Addr_MPL3115A2__		(uint8_t)0x60
 #define __I2C_Addr_TSL2561__		(uint8_t)0x39
+#define __I2C_Addr_SI1145__		    (uint8_t)0x60
 #define __I2C_Addr_MAX17055__		(uint8_t)0x36
 #define __I2C_Addr_BQ24298__		(uint8_t)0x6B
 #define __I2C_Addr_SHT21__			(uint8_t)0x40

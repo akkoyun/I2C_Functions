@@ -143,6 +143,60 @@ class I2C_Functions {
 		}
 
 		/**
+		 * @brief Read specified register on I2C device.
+		 * @param _Register Register address.
+		 * @return uint16_t Data on specified register.
+		 */
+		uint16_t Read_Register_Word(uint8_t _Register) {
+
+			// Declare Response Variable
+			uint16_t _Response = 0x00;
+
+			// Control for Device
+			if (this->TWI_Device) {
+
+				// Control for Multiplexer
+				this->Set_Multiplexer();
+
+				// Connect to Device
+				Wire.beginTransmission(this->TWI_Address);
+
+				// Send Command
+				Wire.write(_Register);
+
+				// Close I2C Connection
+				Wire.endTransmission();
+
+				// Read Register
+				Wire.requestFrom(this->TWI_Address, (uint8_t)2);
+
+				// Control for Response
+				if (Wire.available()) {
+					
+					// Read Response
+					_Response = (uint16_t)Wire.read();
+					_Response = (_Response << 8) | (uint16_t)Wire.read();
+
+				} else {
+
+					// Set Error Variable
+					_Response = 0x00;
+
+				}
+
+			} else {
+
+				// Set Error Variable
+				_Response = 0x00;
+
+			}
+			
+			// End Function
+			return(_Response);
+
+		}
+
+		/**
 		 * @brief Write data to specified register on I2C device.
 		 * @param _Register Register address.
 		 * @param _Data Data register to write on specified register.
