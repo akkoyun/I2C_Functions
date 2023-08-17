@@ -152,6 +152,9 @@ class I2C_Functions {
 			// Declare Response Variable
 			uint16_t _Response = 0x00;
 
+			// Declare Data Variable
+			uint8_t _Data[2] = {0x00, 0x00};
+
 			// Control for Device
 			if (this->TWI_Device) {
 
@@ -172,10 +175,10 @@ class I2C_Functions {
 
 				// Control for Response
 				if (Wire.available()) {
-					
-					// Read Response
-					_Response = (uint16_t)Wire.read();
-					_Response = (_Response << 8) | (uint16_t)Wire.read();
+
+					// Get Response
+					_Data[0] = Wire.read();
+					_Data[1] = Wire.read();
 
 				} else {
 
@@ -190,7 +193,10 @@ class I2C_Functions {
 				_Response = 0x00;
 
 			}
-			
+
+			// Combine Data Variables to uint16_t
+			_Response = (_Data[1] << 8) | _Data[0];
+
 			// End Function
 			return(_Response);
 
