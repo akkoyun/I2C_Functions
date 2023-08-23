@@ -1,5 +1,5 @@
 // I2C Library Definitions
-#define __I2C_Functions_Version__	"01.08.03"
+#define __I2C_Functions_Version__	"01.09.00"
 
 // Sensor Address Definitions
 #define __I2C_Addr_TCA9548__		(uint8_t)0x70
@@ -31,3 +31,13 @@
 #define __Mux_Channel_6__			(uint8_t)0x20
 #define __Mux_Channel_7__			(uint8_t)0x40
 #define __Mux_Channel_8__			(uint8_t)0x80
+
+// Define B108AA I2C Port
+#define __B108AA_MUX_DS28C__		(uint8_t)0x01
+#define __B108AA_MUX_HDC2010__		(uint8_t)0x02
+#define __B108AA_MUX_SI1145__		(uint8_t)0x03
+#define __B108AA_MUX_MPL3115__		(uint8_t)0x04
+#define __B108AA_MUX_SDP810_X__		(uint8_t)0x05
+#define __B108AA_MUX_SDP810_Y__		(uint8_t)0x06
+#define __B108AA_MUX_SDP810_Z__		(uint8_t)0x07
+#define __B108AA_MUX_Power__		(uint8_t)0x08
