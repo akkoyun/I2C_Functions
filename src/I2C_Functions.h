@@ -12,81 +12,13 @@
 	#endif
 
 	// Include Definitions
-	#ifndef __I2C_Functions_Definitions__
-		#include "Definition.h"
-	#endif
-
-	// I2C Multiplexer Class
-	class I2C_Multiplexer {
-
-		private:
-
-			// Multiplexer Structure
-			struct Multiplexer_Structure {
-
-				// Declare TWI Object
-				TwoWire * TWI;
-
-				// Multiplexer Address
-				uint8_t Address = __Mux_Address__;
-
-				// Object multiplexer current channel variable.
-				uint8_t Current_Channel = __Mux_Channel_Off__;
-
-			} Multiplexer;
-
-		public:
-
-			// Object constructor of I2C library.
-			I2C_Multiplexer(TwoWire *_TWI, uint8_t _Address = __Mux_Address__) {
-
-				// Set Variables
-				this->Multiplexer.Address = _Address;
-
-				// Set TWI Object
-				this->Multiplexer.TWI = _TWI;
-
-			}
-
-			// Get object multiplexer channel.
-			uint8_t Get_Current_Channel(void) {
-
-				// End Functions
-				return(this->Multiplexer.Current_Channel);
-
-			}
-
-			// Change multiplexer channel.
-			bool Set_Channel(const uint8_t _Channel) {
-
-				// Coltrol for Current Mux Channel
-				if (this->Multiplexer.Current_Channel != _Channel) {
-
-					// Connect I2C Multiplexer
-					this->Multiplexer.TWI->beginTransmission((uint8_t)this->Multiplexer.Address);
-
-					// Change Channel
-					this->Multiplexer.TWI->write((uint8_t)_Channel);
-
-					// Control For Result
-					if (this->Multiplexer.TWI->endTransmission() != 0) return(false);
-
-					// Set Variable
-					this->Multiplexer.Current_Channel = _Channel;
-
-				} 
-
-				// End Function
-				return(true);
-
-			}
-
-	};
+	#include "Definition.h"
 
 	// I2C Control Functions
-	class I2C_Functions : private I2C_Multiplexer {
+	class I2C_Functions {
 
-		private:
+		// Public Context
+		public:
 
 			// Library Variable Structure
 			struct Library_Variable_Structure {
@@ -117,23 +49,36 @@
 					// Object multiplexer channel variable.
 					uint8_t Channel = __Mux_Channel_Off__;
 
+					// Object multiplexer current channel variable.
+					uint8_t Current_Channel = __Mux_Channel_Off__;
+
 				} Multiplexer;
 
 			} Variables;
 
-		public:
-
 			// Object constructor of I2C library.
-			I2C_Functions(uint8_t _Address, bool _Mux_Enable = false, uint8_t _Mux_Channel = 0x00, TwoWire *_TWI = &Wire) : I2C_Multiplexer(_TWI) {
+			I2C_Functions(uint8_t _Address, bool _Mux_Enable = false, uint8_t _Mux_Channel = 0) {
 
 				// Set Variables
-				this->Variables.Device.Address = _Address;
 				this->Variables.Device.Detect = false;
+				this->Variables.Device.Address = _Address;
 				this->Variables.Multiplexer.Enable = _Mux_Enable;
-				this->Variables.Multiplexer.Channel = _Mux_Channel;
 
-				// Set TWI Object
-				this->Variables.TWI = _TWI;
+				// Set Mux Channel
+				if (_Mux_Enable) {
+
+					// Set Mux Channel
+					if (_Mux_Channel == 0) this->Variables.Multiplexer.Channel = __Mux_Channel_Off__;
+					else if (_Mux_Channel == 1) this->Variables.Multiplexer.Channel = __Mux_Channel_1__;
+					else if (_Mux_Channel == 2) this->Variables.Multiplexer.Channel = __Mux_Channel_2__;
+					else if (_Mux_Channel == 3) this->Variables.Multiplexer.Channel = __Mux_Channel_3__;
+					else if (_Mux_Channel == 4) this->Variables.Multiplexer.Channel = __Mux_Channel_4__;
+					else if (_Mux_Channel == 5) this->Variables.Multiplexer.Channel = __Mux_Channel_5__;
+					else if (_Mux_Channel == 6) this->Variables.Multiplexer.Channel = __Mux_Channel_6__;
+					else if (_Mux_Channel == 7) this->Variables.Multiplexer.Channel = __Mux_Channel_7__;
+					else if (_Mux_Channel == 8) this->Variables.Multiplexer.Channel = __Mux_Channel_8__;
+
+				}
 
 				// Set TWI Start Variable
 				this->Variables.TWI_Start = false;
@@ -141,7 +86,10 @@
 			}
 
 			// Start TWI Connection
-			void Begin(void) {
+			void Begin(TwoWire *_TWI = &Wire) {
+
+				// Set TWI Object
+				this->Variables.TWI = _TWI;
 
 				// Start TWI
 				this->Variables.TWI->begin();
@@ -166,14 +114,11 @@
 			}
 
 			// I2C device controller.
-			bool Detect_Device(void) {
-
-				// Control for TWI Start
-				if (!this->Variables.TWI_Start) return(false);
+			void Detect_Device(void) {
 
 				// Set Multiplexer
-				if (this->Variables.Multiplexer.Enable)	I2C_Multiplexer::Set_Channel(this->Variables.Multiplexer.Channel);
-
+				this->Set_Mux_Channel();
+				
 				// Connect to Device
 				this->Variables.TWI->beginTransmission(this->Variables.Device.Address);
 
@@ -190,9 +135,6 @@
 
 				}
 
-				// End Function
-				return(this->Variables.Device.Detect);
-
 			}
 
 			// Read specified register on I2C device.
@@ -208,7 +150,7 @@
 				if (this->Variables.Device.Detect) {
 
 					// Set Multiplexer
-					if (this->Variables.Multiplexer.Enable)	I2C_Multiplexer::Set_Channel(this->Variables.Multiplexer.Channel);
+					if (this->Variables.Multiplexer.Enable)	this->Set_Mux_Channel();
 
 					// Connect to Device
 					this->Variables.TWI->beginTransmission(this->Variables.Device.Address);
@@ -263,7 +205,7 @@
 				if (this->Variables.Device.Detect) {
 
 					// Set Multiplexer
-					if (this->Variables.Multiplexer.Enable)	I2C_Multiplexer::Set_Channel(this->Variables.Multiplexer.Channel);
+					if (this->Variables.Multiplexer.Enable)	this->Set_Mux_Channel();
 
 					// Connect to Device
 					this->Variables.TWI->beginTransmission(this->Variables.Device.Address);
@@ -298,8 +240,8 @@
 
 				}
 
-				// Combine Data Variables to uint16_t
-				_Response = (_Data[1] << 8) | _Data[0];
+				// Combine Read Bytes
+				_Response = ((uint16_t)(_Data[1]) << 8 | (uint16_t)_Data[0]);
 
 				// End Function
 				return(_Response);
@@ -316,7 +258,7 @@
 				if (this->Variables.Device.Detect) {
 
 					// Set Multiplexer
-					if (this->Variables.Multiplexer.Enable)	I2C_Multiplexer::Set_Channel(this->Variables.Multiplexer.Channel);
+					if (this->Variables.Multiplexer.Enable)	this->Set_Mux_Channel();
 
 					// Connect to Device
 					this->Variables.TWI->beginTransmission(this->Variables.Device.Address);
@@ -334,7 +276,12 @@
 					this->Variables.TWI->requestFrom(this->Variables.Device.Address, _Length);
 
 					// Read Registers
-					for (size_t i = 0; i < _Length; i++) _Data[i] = this->Variables.TWI->read();
+					for (size_t i = 0; i < _Length; i++) {
+
+						// Get Response
+						_Data[i] = this->Variables.TWI->read();
+
+					}
 
 				} else {
 
@@ -347,7 +294,9 @@
 				return(true);
 
 			}
-			bool Read_Multiple_Register(uint16_t _Register, uint8_t * _Data, uint8_t _Length, bool _Stop) {
+
+			// Read multiple data on specified register.
+			bool Read_Multiple_Register_u16(uint16_t _Register, uint8_t * _Data, uint8_t _Length, bool _Stop) {
 
 				// Control for TWI Start
 				if (!this->Variables.TWI_Start) return(false);
@@ -356,7 +305,7 @@
 				if (this->Variables.Device.Detect) {
 
 					// Set Multiplexer
-					if (this->Variables.Multiplexer.Enable)	I2C_Multiplexer::Set_Channel(this->Variables.Multiplexer.Channel);
+					if (this->Variables.Multiplexer.Enable)	this->Set_Mux_Channel();
 
 					// Connect to Device
 					this->Variables.TWI->beginTransmission(this->Variables.Device.Address);
@@ -379,7 +328,12 @@
 					this->Variables.TWI->requestFrom(this->Variables.Device.Address, _Length);
 
 					// Read Registers
-					for (size_t i = 0; i < _Length; i++) _Data[i] = this->Variables.TWI->read();
+					for (size_t i = 0; i < _Length; i++) {
+
+						// Get Response
+						_Data[i] = this->Variables.TWI->read();
+
+					}
 
 				} else {
 
@@ -403,7 +357,7 @@
 				if (this->Variables.Device.Detect) {
 
 					// Set Multiplexer
-					if (this->Variables.Multiplexer.Enable)	I2C_Multiplexer::Set_Channel(this->Variables.Multiplexer.Channel);
+					if (this->Variables.Multiplexer.Enable)	this->Set_Mux_Channel();
 
 					// Connect to Device
 					this->Variables.TWI->beginTransmission(this->Variables.Device.Address);
@@ -442,7 +396,7 @@
 				if (this->Variables.Device.Detect) {
 
 					// Set Multiplexer
-					if (this->Variables.Multiplexer.Enable)	I2C_Multiplexer::Set_Channel(this->Variables.Multiplexer.Channel);
+					if (this->Variables.Multiplexer.Enable)	this->Set_Mux_Channel();
 
 					// Connect to Device
 					this->Variables.TWI->beginTransmission(this->Variables.Device.Address);
@@ -481,7 +435,7 @@
 				if (this->Variables.Device.Detect) {
 
 					// Set Multiplexer
-					if (this->Variables.Multiplexer.Enable)	I2C_Multiplexer::Set_Channel(this->Variables.Multiplexer.Channel);
+					if (this->Variables.Multiplexer.Enable)	this->Set_Mux_Channel();
 
 					// Connect to Device
 					this->Variables.TWI->beginTransmission(this->Variables.Device.Address);
@@ -517,7 +471,7 @@
 				if (this->Variables.Device.Detect) {
 
 					// Set Multiplexer
-					if (this->Variables.Multiplexer.Enable)	I2C_Multiplexer::Set_Channel(this->Variables.Multiplexer.Channel);
+					if (this->Variables.Multiplexer.Enable)	this->Set_Mux_Channel();
 
 					// Connect to Device
 					this->Variables.TWI->beginTransmission(this->Variables.Device.Address);
@@ -553,7 +507,7 @@
 				if (this->Variables.Device.Detect) {
 
 					// Set Multiplexer
-					if (this->Variables.Multiplexer.Enable)	I2C_Multiplexer::Set_Channel(this->Variables.Multiplexer.Channel);
+					if (this->Variables.Multiplexer.Enable)	this->Set_Mux_Channel();
 
 					// Read Register
 					uint8_t _Response = this->Read_Register(_Register);
@@ -594,7 +548,7 @@
 				if (this->Variables.Device.Detect) {
 
 					// Set Multiplexer
-					if (this->Variables.Multiplexer.Enable)	I2C_Multiplexer::Set_Channel(this->Variables.Multiplexer.Channel);
+					if (this->Variables.Multiplexer.Enable)	this->Set_Mux_Channel();
 
 					// Read Register
 					uint8_t _Response = this->Read_Register(_Register);
@@ -632,7 +586,7 @@
 				if (!this->Variables.TWI_Start) return(false);
 
 				// Set Multiplexer
-				if (this->Variables.Multiplexer.Enable)	I2C_Multiplexer::Set_Channel(this->Variables.Multiplexer.Channel);
+				if (this->Variables.Multiplexer.Enable)	this->Set_Mux_Channel();
 
 				// Read Register
 				uint8_t _Response = this->Read_Register(_Register);
@@ -645,21 +599,41 @@
 
 			}
 
-			// I2C device control variable.
-			bool Detect(void) {
+			// Set multiplexer channel.
+			bool Set_Mux_Channel(void) {
 
-				// End Functions
-				return(this->Variables.Device.Detect);
+				// Declare Result Variable
+				bool _Result = true;
+
+				// Control for Multiplexer
+				if (this->Variables.Multiplexer.Enable) {
+
+					// Read Current Channel
+					this->Variables.TWI->requestFrom((uint8_t)__Mux_Address__, (uint8_t)1);
+					uint8_t _Current_Channel = this->Variables.TWI->read();
+
+					// Coltrol for Current Mux Channel
+					if (_Current_Channel != this->Variables.Multiplexer.Channel) {
+
+						// Connect I2C Multiplexer
+						this->Variables.TWI->beginTransmission((uint8_t)__Mux_Address__);
+
+						// Change Channel
+						this->Variables.TWI->write((uint8_t)this->Variables.Multiplexer.Channel);
+
+						// Control For Result
+						if (this->Variables.TWI->endTransmission() != 0) _Result = false;
+
+					} 
+
+				}
+
+				// End Function
+				return(_Result);
 
 			}
 
-			// Get object I2C address.
-			uint8_t Address(void) {
 
-				// End Functions
-				return(this->Variables.Device.Address);
-
-			}
 
 	};
 
