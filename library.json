@@ -1,6 +1,6 @@
 {
 	"name": "I2C_Functions",
-	"version": "1.10.1",
+	"version": "1.10.2",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/akkoyun/I2C_Functions.git"

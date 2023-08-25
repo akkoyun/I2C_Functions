@@ -347,6 +347,41 @@
 
 			}
 
+			// Read multiple data on specified register.
+			bool Read_Multiple_Register_u16_NoCMD(uint8_t * _Data, uint8_t _Length) {
+
+				// Control for TWI Start
+				if (!this->Variables.TWI_Start) return(false);
+
+				// Control for Device
+				if (this->Variables.Device.Detect) {
+
+					// Set Multiplexer
+					if (this->Variables.Multiplexer.Enable)	this->Set_Mux_Channel();
+
+					// Send Read Request
+					this->Variables.TWI->requestFrom(this->Variables.Device.Address, _Length);
+
+					// Read Registers
+					for (size_t i = 0; i < _Length; i++) {
+
+						// Get Response
+						_Data[i] = this->Variables.TWI->read();
+
+					}
+
+				} else {
+
+					// End Function
+					return(false);
+
+				}
+
+				// End Function
+				return(true);
+
+			}
+
 			// Write data to specified register on I2C device.
 			bool Write_Register(uint8_t _Register, uint8_t _Data, bool _Stop) {
 
