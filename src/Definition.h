@@ -17,6 +17,7 @@
 #define __I2C_Addr_PCF8574_B__		(uint8_t)0x3B
 #define __I2C_Addr_PCF8574_C__		(uint8_t)0x39
 #define __I2C_Addr_PCF8574_D__		(uint8_t)0x3E
+#define __I2C_Addr_NA2302__         (uint8_t)0x00
 
 // Set Default Address
 #define __Mux_Address__             (uint8_t)0x70
