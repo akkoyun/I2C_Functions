@@ -57,7 +57,7 @@
 			} Variables;
 
 			// Object constructor of I2C library.
-			I2C_Functions(uint8_t _Address, bool _Mux_Enable = false, uint8_t _Mux_Channel = 0) {
+			explicit I2C_Functions(uint8_t _Address, bool _Mux_Enable = false, uint8_t _Mux_Channel = 0) {
 
 				// Set Variables
 				this->Variables.Device.Detect = false;
@@ -422,7 +422,7 @@
 			}
 
 			// Write multiple data to specified register.
-			bool Write_Multiple_Register(uint8_t _Register, uint8_t * _Data, uint8_t _Length) {
+			bool Write_Multiple_Register(const uint8_t _Register, const uint8_t * _Data, const uint8_t _Length) {
 
 				// Control for TWI Start
 				if (!this->Variables.TWI_Start) return(false);
@@ -497,7 +497,7 @@
 			}
 
 			// Write multiple command to I2C device.
-			bool Write_Multiple_Command(uint8_t * _Command, uint8_t _Length) {
+			bool Write_Multiple_Command(const uint8_t * _Command, const uint8_t _Length) {
 
 				// Control for TWI Start
 				if (!this->Variables.TWI_Start) return(false);
@@ -551,7 +551,7 @@
 					if (bitRead(_Response, _Bit_Number) == false) {
 
 						// Set Bit
-						_Response = bitSet(_Response, _Bit_Number);
+						bitSet(_Response, _Bit_Number);
 
 						// Write Register
 						bool _Write_Response = this->Write_Register(_Register, _Response, _Stop);
@@ -592,7 +592,7 @@
 					if (bitRead(_Response, _Bit_Number) == true) {
 
 						// Set Bit
-						_Response = bitClear(_Response, _Bit_Number);
+						bitClear(_Response, _Bit_Number);
 
 						// Write Register
 						bool _Write_Response = this->Write_Register(_Register, _Response, _Stop);
