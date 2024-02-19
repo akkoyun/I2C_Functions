@@ -34,43 +34,41 @@ uint8_t Result = HDC2010.Read_Register(0x01); // Read register 0x01
 
 You can use the pre-defined I2C devices in the library. You don't need to specify the I2C device address. You can also add your own I2C device address to the library.
 
-__Note__: Definitions are made in the library.json file.
-
 ```C++
 // Library Version
-"-D __I2C_Functions_Version__=\"01.11.00\"",
+#define __I2C_Functions_Version__ "01.11.00"
 
-// Defined I2C Devices
-"-D __I2C_Addr_TCA9548__    =0x70",
-"-D __I2C_Addr_RV3028C7__   =0x52",
-"-D __I2C_Addr_DS28C__      =0x50",
-"-D __I2C_Addr_HDC2010__    =0x40",
-"-D __I2C_Addr_MPL3115A2__  =0x60",
-"-D __I2C_Addr_TSL2561__    =0x39",
-"-D __I2C_Addr_SI1145__     =0x60",
-"-D __I2C_Addr_MAX17055__   =0x36",
-"-D __I2C_Addr_BQ24298__    =0x6B",
-"-D __I2C_Addr_SHT21__      =0x40",
-"-D __I2C_Addr_SDP810__     =0x25",
-"-D __I2C_Addr_PCF8574_A__  =0x3F",
-"-D __I2C_Addr_PCF8574_B__  =0x3B",
-"-D __I2C_Addr_PCF8574_C__  =0x39",
-"-D __I2C_Addr_PCF8574_D__  =0x3E",
-"-D __I2C_Addr_NA2302__     =0x00",
+// I2C Address Definitions
+#define __I2C_Addr_TCA9548__    (uint8_t)0x70
+#define __I2C_Addr_RV3028C7__   (uint8_t)0x52
+#define __I2C_Addr_DS28C__      (uint8_t)0x50
+#define __I2C_Addr_HDC2010__    (uint8_t)0x40
+#define __I2C_Addr_MPL3115A2__  (uint8_t)0x60
+#define __I2C_Addr_TSL2561__    (uint8_t)0x39
+#define __I2C_Addr_SI1145__     (uint8_t)0x60
+#define __I2C_Addr_MAX17055__   (uint8_t)0x36
+#define __I2C_Addr_BQ24298__    (uint8_t)0x6B
+#define __I2C_Addr_SHT21__      (uint8_t)0x40
+#define __I2C_Addr_SDP810__     (uint8_t)0x25
+#define __I2C_Addr_PCF8574_A__  (uint8_t)0x3F
+#define __I2C_Addr_PCF8574_B__  (uint8_t)0x3B
+#define __I2C_Addr_PCF8574_C__  (uint8_t)0x39
+#define __I2C_Addr_PCF8574_D__  (uint8_t)0x3E
+#define __I2C_Addr_NA2302__     (uint8_t)0x3A
 
-// Defined I2C Mux Address
-"-D __Mux_Address__         =0x70",
+// Set Default Address
+#define __Mux_Address__         (uint8_t)0x70
 
-// Defined I2C Mux Channel
-"-D __Mux_Channel_Off__     =0x00",
-"-D __Mux_Channel_1__       =0x01",
-"-D __Mux_Channel_2__       =0x02",
-"-D __Mux_Channel_3__       =0x04",
-"-D __Mux_Channel_4__       =0x08",
-"-D __Mux_Channel_5__       =0x10",
-"-D __Mux_Channel_6__       =0x20",
-"-D __Mux_Channel_7__       =0x40",
-"-D __Mux_Channel_8__       =0x80"
+// Multiplexer Channel Definirions
+#define __Mux_Channel_Off__     (uint8_t)0x00
+#define __Mux_Channel_1__       (uint8_t)0x01
+#define __Mux_Channel_2__       (uint8_t)0x02
+#define __Mux_Channel_3__       (uint8_t)0x04
+#define __Mux_Channel_4__       (uint8_t)0x08
+#define __Mux_Channel_5__       (uint8_t)0x10
+#define __Mux_Channel_6__       (uint8_t)0x20
+#define __Mux_Channel_7__       (uint8_t)0x40
+#define __Mux_Channel_8__       (uint8_t)0x80
 ```
 
 ---
