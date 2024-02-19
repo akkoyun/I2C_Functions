@@ -1,11 +1,11 @@
 {
 	"name": "I2C_Functions",
-	"version": "1.11.0",
+	"version": "1.12.0",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/akkoyun/I2C_Functions.git"
 	},
-	"keywords": "I2C, Sensor, Data, Communication, Multiplexer, Detect, Register, Functions, Converter, bit Functions, Scanner, Console, VT100, Multiplexer, Sensor",
+	"keywords": "I2C, Sensor, Data, Communication, Multiplexer, Detect, Register, Functions, Converter, bit Functions, Scanner, Console, VT100, Multiplexer, Sensor, BusIO, Adafruit",
 	"description": "The Two-Wire interface is extremely useful for connecting multiple devices, as they can all share the same two pins (plus a ground return). This is because the devices are \"addressable\". Each device needs to have a unique address in the range 0x03 to 0x77. This is a helper library to abstract away I2C transactions and registers also this tool scans the master I2C bus and reports connected devices. ",
 	"authors": {
 		"name": "Mehmet Gunce Akkoyun",
@@ -18,6 +18,35 @@
 	"platforms": [
 		"atmelavr",
 		"atmelmegaavr"
+	],
+	"flags": [
+		"-D __I2C_Functions_Version__=\"01.11.00\"",
+		"-D __I2C_Addr_TCA9548__=0x70",
+		"-D __I2C_Addr_RV3028C7__=0x52",
+		"-D __I2C_Addr_DS28C__=0x50",
+		"-D __I2C_Addr_HDC2010__=0x40",
+		"-D __I2C_Addr_MPL3115A2__=0x60",
+		"-D __I2C_Addr_TSL2561__=0x39",
+		"-D __I2C_Addr_SI1145__=0x60",
+		"-D __I2C_Addr_MAX17055__=0x36",
+		"-D __I2C_Addr_BQ24298__=0x6B",
+		"-D __I2C_Addr_SHT21__=0x40",
+		"-D __I2C_Addr_SDP810__=0x25",
+		"-D __I2C_Addr_PCF8574_A__=0x3F",
+		"-D __I2C_Addr_PCF8574_B__=0x3B",
+		"-D __I2C_Addr_PCF8574_C__=0x39",
+		"-D __I2C_Addr_PCF8574_D__=0x3E",
+		"-D __I2C_Addr_NA2302__=0x00",
+		"-D __Mux_Address__=0x70",
+		"-D __Mux_Channel_Off__=0x00",
+		"-D __Mux_Channel_1__=0x01",
+		"-D __Mux_Channel_2__=0x02",
+		"-D __Mux_Channel_3__=0x04",
+		"-D __Mux_Channel_4__=0x08",
+		"-D __Mux_Channel_5__=0x10",
+		"-D __Mux_Channel_6__=0x20",
+		"-D __Mux_Channel_7__=0x40",
+		"-D __Mux_Channel_8__=0x80"
 	],
 	"examples": [
 		{

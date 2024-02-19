@@ -2,12 +2,12 @@
 #define __I2C_Functions__
 
 	// Include Arduino Library
-	#ifndef __Arduino__
+	#ifndef Arduino_h
 		#include <Arduino.h>
 	#endif
 
 	// Include Wire Library
-	#ifndef __Wire__
+	#ifndef WIRE_H
 		#include <Wire.h>
 	#endif
 
@@ -17,8 +17,8 @@
 	// I2C Control Functions
 	class I2C_Functions {
 
-		// Public Context
-		public:
+		// Private Context
+		private:
 
 			// Library Variable Structure
 			struct Library_Variable_Structure {
@@ -55,6 +55,9 @@
 				} Multiplexer;
 
 			} Variables;
+
+		// Public Context
+		public:
 
 			// Object constructor of I2C library.
 			explicit I2C_Functions(uint8_t _Address, bool _Mux_Enable = false, uint8_t _Mux_Channel = 0) {
@@ -116,29 +119,39 @@
 			// I2C device controller.
 			void Detect_Device(void) {
 
-				// Set Multiplexer
-				this->Set_Mux_Channel();
-				
-				// Connect to Device
-				this->Variables.TWI->beginTransmission(this->Variables.Device.Address);
+				// Control for TWI Start
+				if (this->Variables.TWI_Start) {
 
-				// Close I2C Connection
-				if (this->Variables.TWI->endTransmission() != 0) {
+					// Set Multiplexer
+					this->Set_Mux_Channel();
+					
+					// Connect to Device
+					this->Variables.TWI->beginTransmission(this->Variables.Device.Address);
 
-					// Set Device
-					this->Variables.Device.Detect = false;
+					// Close I2C Connection
+					if (this->Variables.TWI->endTransmission() != 0) {
+
+						// Set Device
+						this->Variables.Device.Detect = false;
+
+					} else {
+
+						// Set Device
+						this->Variables.Device.Detect = true;
+
+					}
 
 				} else {
 
-					// Set Device
-					this->Variables.Device.Detect = true;
+					// Start TWI
+					this->Variables.TWI->begin();
 
 				}
 
 			}
 
 			// Read specified register on I2C device.
-			uint8_t Read_Register(uint8_t _Register) {
+			uint8_t Read_Register(const uint8_t _Register) {
 
 				// Control for TWI Start
 				if (!this->Variables.TWI_Start) return(false);
@@ -190,7 +203,7 @@
 			}
 
 			// Read specified register on I2C device.
-			uint16_t Read_Register_Word(uint8_t _Register) {
+			uint16_t Read_Register_Word(const uint8_t _Register) {
 
 				// Control for TWI Start
 				if (!this->Variables.TWI_Start) return(false);
@@ -249,7 +262,7 @@
 			}
 
 			// Read multiple data on specified register.
-			bool Read_Multiple_Register(uint8_t _Register, uint8_t * _Data, uint8_t _Length, bool _Stop) {
+			bool Read_Multiple_Register(const uint8_t _Register, uint8_t * _Data, const uint8_t _Length, const bool _Stop) {
 
 				// Control for TWI Start
 				if (!this->Variables.TWI_Start) return(false);
@@ -276,7 +289,7 @@
 					this->Variables.TWI->requestFrom(this->Variables.Device.Address, _Length);
 
 					// Read Registers
-					for (size_t i = 0; i < _Length; i++) {
+					for (uint8_t i = 0; i < _Length; i++) {
 
 						// Get Response
 						_Data[i] = this->Variables.TWI->read();
@@ -296,7 +309,7 @@
 			}
 
 			// Read multiple data on specified register.
-			bool Read_Multiple_Register_u16(uint16_t _Register, uint8_t * _Data, uint8_t _Length, bool _Stop) {
+			bool Read_Multiple_Register_u16(const uint16_t _Register, uint8_t * _Data, const uint8_t _Length, const bool _Stop) {
 
 				// Control for TWI Start
 				if (!this->Variables.TWI_Start) return(false);
@@ -348,7 +361,7 @@
 			}
 
 			// Read multiple data on specified register.
-			bool Read_Multiple_Register_u16_NoCMD(uint8_t * _Data, uint8_t _Length) {
+			bool Read_Multiple_Register_u16_NoCMD(uint8_t * _Data, const uint8_t _Length) {
 
 				// Control for TWI Start
 				if (!this->Variables.TWI_Start) return(false);
@@ -383,7 +396,7 @@
 			}
 
 			// Write data to specified register on I2C device.
-			bool Write_Register(uint8_t _Register, uint8_t _Data, bool _Stop) {
+			bool Write_Register(const uint8_t _Register, const uint8_t _Data, const bool _Stop) {
 
 				// Control for TWI Start
 				if (!this->Variables.TWI_Start) return(false);
@@ -461,7 +474,7 @@
 			}
 
 			// Write command to I2C device.
-			bool Write_Command(uint8_t _Command, bool _Stop) {
+			bool Write_Command(const uint8_t _Command, const bool _Stop) {
 
 				// Control for TWI Start
 				if (!this->Variables.TWI_Start) return(false);
@@ -533,7 +546,7 @@
 			}
 
 			// Set specified register bit on I2C device.
-			bool Set_Register_Bit(uint8_t _Register, uint8_t _Bit_Number, bool _Stop) {
+			bool Set_Register_Bit(const uint8_t _Register, const uint8_t _Bit_Number, const bool _Stop) {
 
 				// Control for TWI Start
 				if (!this->Variables.TWI_Start) return(false);
@@ -574,7 +587,7 @@
 			}
 
 			// Clear specified register bit on I2C device.
-			bool Clear_Register_Bit(uint8_t _Register, uint8_t _Bit_Number, bool _Stop) {
+			bool Clear_Register_Bit(const uint8_t _Register, const uint8_t _Bit_Number, const bool _Stop) {
 
 				// Control for TWI Start
 				if (!this->Variables.TWI_Start) return(false);
@@ -615,7 +628,7 @@
 			}
 
 			// Read specified register bit on I2C device.
-			bool Read_Register_Bit(uint8_t _Register, uint8_t _Bit_Number) {
+			bool Read_Register_Bit(const uint8_t _Register, const uint8_t _Bit_Number) {
 
 				// Control for TWI Start
 				if (!this->Variables.TWI_Start) return(false);
@@ -668,7 +681,37 @@
 
 			}
 
+			// Get I2C Address
+			uint8_t Address(void) {
 
+				// End Function
+				return(this->Variables.Device.Address);
+
+			}
+
+			// Get I2C Detect
+			bool Detect(void) {
+
+				// End Function
+				return(this->Variables.Device.Detect);
+
+			}
+
+			// Get I2C Multiplexer Enable
+			bool Mux_Enable(void) {
+
+				// End Function
+				return(this->Variables.Multiplexer.Enable);
+
+			}
+
+			// Get I2C Multiplexer Channel
+			uint8_t Mux_Channel(void) {
+
+				// End Function
+				return(this->Variables.Multiplexer.Channel);
+
+			}
 
 	};
 
