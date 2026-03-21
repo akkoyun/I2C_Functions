@@ -13,25 +13,43 @@ I2C_Functions				KEYWORD1
 #######################################
 
 I2C_Functions               KEYWORD2
+Begin                       KEYWORD2
+End                         KEYWORD2
 Read_Register               KEYWORD2
+Read_Register_Word          KEYWORD2
+Try_Read_Register           KEYWORD2
+Try_Read_Register_Word      KEYWORD2
 Write_Register              KEYWORD2
+Try_Write_Register          KEYWORD2
 Read_Multiple_Register      KEYWORD2
+Try_Read_Multiple_Register  KEYWORD2
+Try_Read_Multiple_Register_u16 KEYWORD2
+Try_Read_Multiple_Register_u16_NoCMD KEYWORD2
 Write_Multiple_Register		KEYWORD2
+Try_Write_Multiple_Register KEYWORD2
 Write_Command               KEYWORD2
+Try_Write_Command           KEYWORD2
+Write_Multiple_Command      KEYWORD2
 Set_Register_Bit            KEYWORD2
 Clear_Register_Bit          KEYWORD2
 Read_Register_Bit           KEYWORD2
-Control_Device              KEYWORD2
+Try_Read_Register_Bit       KEYWORD2
+Try_Write_Multiple_Command  KEYWORD2
+Set_Mux_Channel             KEYWORD2
+Detect_Device               KEYWORD2
 Detect                      KEYWORD2
 Address                     KEYWORD2
-Mux                         KEYWORD2
-Set_Multiplexer             KEYWORD2
+Mux_Enable                  KEYWORD2
+Mux_Channel                 KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
 
 __I2C_Functions_Version__   LITERAL1
+__I2C_Functions_Version_Major__   LITERAL1
+__I2C_Functions_Version_Minor__   LITERAL1
+__I2C_Functions_Version_Patch__   LITERAL1
 __I2C_Addr_TCA9548__        LITERAL1
 __I2C_Addr_RV3028C7__       LITERAL1
 __I2C_Addr_DS28C__          LITERAL1

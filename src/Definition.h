@@ -1,5 +1,8 @@
 // Library Version
-#define __I2C_Functions_Version__ "01.11.00"
+#define __I2C_Functions_Version_Major__ 2
+#define __I2C_Functions_Version_Minor__ 0
+#define __I2C_Functions_Version_Patch__ 1
+#define __I2C_Functions_Version__ "02.00.01"
 
 // I2C Address Definitions
 #ifndef __I2C_Addr_TCA9548__

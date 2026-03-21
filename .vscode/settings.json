@@ -1,0 +1,9 @@
+{
+	// Use PlatformIO as the source of truth for IntelliSense configuration.
+	"C_Cpp.default.configurationProvider": "platformio.platformio-ide",
+
+	// Treat Arduino sketches as C++ sources in the editor.
+	"files.associations": {
+		"*.ino": "cpp"
+	}
+}
