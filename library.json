@@ -1,6 +1,6 @@
 {
 	"name": "I2C_Functions",
-	"version": "2.0.1",
+	"version": "3.0.1",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/akkoyun/I2C_Functions.git"
@@ -38,6 +38,21 @@
 			"name": "Device Control",
 			"base": "examples/Device_Control",
 			"files": ["Device_Control.ino"]
+		},
+		{
+			"name": "Bit Control",
+			"base": "examples/Bit_Control",
+			"files": ["Bit_Control.ino"]
+		},
+		{
+			"name": "Word Operations",
+			"base": "examples/Word_Operations",
+			"files": ["Word_Operations.ino"]
+		},
+		{
+			"name": "Mux Control",
+			"base": "examples/Mux_Control",
+			"files": ["Mux_Control.ino"]
 		}
 	]
 }

@@ -26,7 +26,7 @@ void setup() {
 
 	// Header
 	Serial.println(F("       I2C Functions      "));
-	Serial.print(F("         ")); Serial.println(__I2C_Functions_Version__);
+	Serial.print(F("         ")); Serial.println(F("03.00.01"));
 	Serial.println(F("--------------------------"));
 
 	// Print Sensor Detect
@@ -45,7 +45,7 @@ void setup() {
 		bool Read_Status = HDC2010.Try_Read_Register(Example_Read_Register, &Register_Value);
 
 		// Write Register With Explicit Status
-		if (Example_Write_Enable) Write_Status = HDC2010.Try_Write_Register(Example_Write_Register, Example_Write_Value, true);
+		if (Example_Write_Enable) Write_Status = HDC2010.Write_Register(Example_Write_Register, Example_Write_Value, true);
 		
 		// Print Status
 		Serial.println(F("OK"));
